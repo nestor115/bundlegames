@@ -60,7 +60,7 @@ const Game = ({ id }) => {
   return (
     <div className="container mt-5">
     <div className="card border-dark" style={{ width: '300px' }}>
-      <img src={gameImage} className="card-img-top" alt={gameName} style={{ height: '200px', objectFit: 'cover' }} />
+      <img src={gameImage} className="card-img-top" alt={gameName} style={{ height: '200px', objectFit: 'contain' }} />
       <div className="card-body">
         <h5 className="card-title">{gameName}</h5>
         {/* Aquí puedes agregar más detalles del juego si lo deseas */}
