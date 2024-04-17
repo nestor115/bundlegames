@@ -1,14 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Game from './Game';
-
+import Prueba from './Prueba';
 const GameboardsPage = () => {
   
 
   return (
     <div>
       <h1>Juegos de Mesa</h1>
-       
+      
+
+    
+
        
        <Game id="297318"/>
        <Game id="402206"/>
