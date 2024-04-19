@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Game from './Game';
-import Prueba from './Prueba';
+import Game from '../components/Game';
+import Logout from '../components/Logout';
+import Prueba from '../components/Prueba';
 const GameboardsPage = () => {
   
 
@@ -9,7 +10,7 @@ const GameboardsPage = () => {
     <div>
       <h1>Juegos de Mesa</h1>
       
-
+      <Logout/>
     
 
        

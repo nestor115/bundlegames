@@ -8,12 +8,21 @@ const Register = () => {
 
     const registerUser = async (userData) =>{
        try{
-        const response = await axios.post('/register',userData);
+        const response = await axios.post('http://127.0.0.1:8000/register2', userData);
         console.log(response.data);
-       } catch(error){
-        console.error('Error:', error.response.data);
-       }
-    };
+       } catch (error) {
+        if (error.response) {
+            // La solicitud fue hecha pero el servidor respondió con un código de error
+            console.error('Error:', error.response.data);
+        } else if (error.request) {
+            // La solicitud fue hecha pero no se recibió respuesta
+            console.error('No response from server:', error.request);
+        } else {
+            // Algo sucedió en la configuración de la solicitud que provocó un error
+            console.error('Error setting up request:', error.message);
+        }
+    }
+};
 
     const handleRegister =() => {
 

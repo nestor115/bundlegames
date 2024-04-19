@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Register from './Register';
-const DashboardPage = () => {
+import Register from '../components/Register';
+const RegisterPage = () => {
   
 
   return (
     <div>
-      <h1>Dashboard</h1>
+      <h1>Registro</h1>
       
     <Register/>
     
@@ -18,4 +18,4 @@ const DashboardPage = () => {
   );
 };
 
-export default DashboardPage;
+export default RegisterPage;
