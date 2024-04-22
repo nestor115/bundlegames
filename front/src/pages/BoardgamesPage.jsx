@@ -10,17 +10,17 @@ const [boardgameIds, setBoardgameIds] = useState([]);
  
 
 
-const getBoardgamesIds = async () => {
-  try {
-      const response = await axios.get('http://127.0.0.1:8000/user/boardgame-ids');
-      setBoardgameIds(response.data.boardgame_ids);
-  } catch (error) {
-      console.error('Error al obtener los IDs de los juegos de mesa:', error);
-  }
-};
-useEffect(() => {
-   getBoardgamesIds();
-}, []);
+// const getBoardgamesIds = async () => {
+//   try {
+//       const response = await axios.get('http://127.0.0.1:8000/user/boardgame-ids');
+//       setBoardgameIds(response.data.boardgame_ids);
+//   } catch (error) {
+//       console.error('Error al obtener los IDs de los juegos de mesa:', error);
+//   }
+// };
+// useEffect(() => {
+//    getBoardgamesIds();
+// }, []);
 
   return (
     <div>
@@ -28,10 +28,10 @@ useEffect(() => {
       
       <Logout/>
     
-    {boardgameIds.map((boardgameId)=>(
+    {/* {boardgameIds.map((boardgameId)=>(
       <p key={boardgameId}>{boardgameId}</p>
       // <Game id={boardgameId} key={boardgameId}/>
-    ))}
+    ))} */}
 
        
        <Game id="297318"/>

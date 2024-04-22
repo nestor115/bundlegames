@@ -88,7 +88,7 @@ public function assignBoardgameToUser(Request $request, $boardgameId)
 
 public function getBoardgameIdsByUserId(Request $request)
 {
-   //$userId = Auth::id();
+   $userId = Auth::id();
    $userId = 2;
    $user = User::findOrFail($userId,"id");
     $boardgamesIds = $user->boardgames()->pluck('boardgame_id')->toArray();
