@@ -11,10 +11,13 @@ const Login = () => {
             const response = await axios.post('http://127.0.0.1:8000/login', {
                 email: email,
                 password: password
-            });
+            },{ withCredentials: true},{headers:{
+                'Access-Control-Allow-Origin': '*', 
+                'Content-Type': 'application/json'
+            }});
 
             console.log(response.data);
-            navigate('/');
+            navigate('/boardgames');
             // Aquí puedes manejar la redirección o el estado de autenticación en la aplicación React
         } catch (error) {
             console.error('Error:', error.response.data);

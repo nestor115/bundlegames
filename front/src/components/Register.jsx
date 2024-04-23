@@ -9,6 +9,7 @@ const Register = () => {
     const registerUser = async (userData) =>{
        try{
         const response = await axios.post('http://127.0.0.1:8000/register2', userData);
+        // const response = await axios.post('http://app:8001/register2', userData);
         console.log(response.data);
        } catch (error) {
         if (error.response) {

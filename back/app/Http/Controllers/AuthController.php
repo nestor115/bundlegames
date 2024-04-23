@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cookie;
 
 
 
@@ -42,7 +43,8 @@ public function login(Request $request)
             $request->session()->regenerate();
             $userId = Auth::id();
             \Log::info("User authenticated successfully. User ID: {$userId}");
-            return response()->json(['message' => "Authenticated {$userId}"], 200);
+            $cookie = Cookie::make('cookieId', $userId, 43200);
+            return response()->json(['message' => "Authenticated {$userId}"], 200)->withCookie($cookie);
         }
         \Log::error('Authentication failed. Invalid credentials provided.');
         return response()->json(['message' => 'Invalid credentials'], 401);
@@ -67,16 +69,16 @@ public function login(Request $request)
         // Elimina la sesión de usuario de la base de datos
         DB::table('sessions')->where('user_id', $userId)->delete();
     }
-
+    $cookie = Cookie::forget('cookieId');
     // Envía una respuesta JSON indicando que se ha cerrado la sesión correctamente
     return response()->json(['message' => 'Logged out'], 200);
 }
 
 public function assignBoardgameToUser(Request $request, $boardgameId)
 {
-    $userId = Auth::id();
-    dd($userId);
-
+    // $userId = Auth::id();
+    // dd($userId);
+    $userId = $request->cookie('cookieId');
     $user = User::findOrFail($userId);
 
     $user->boardgames()->create([
@@ -88,11 +90,17 @@ public function assignBoardgameToUser(Request $request, $boardgameId)
 
 public function getBoardgameIdsByUserId(Request $request)
 {
-   $userId = Auth::id();
-   $userId = 2;
+    $userId = $request->cookie('cookieId');
+
+    if (!$userId) {
+        return response()->json(['message' => 'User ID not found in cookie'], 401);
+    }
+//    $userId = Auth::id();
+$cookies = $request->cookie();
+//    $userId = 2;
    $user = User::findOrFail($userId,"id");
     $boardgamesIds = $user->boardgames()->pluck('boardgame_id')->toArray();
-    return response()->json(['boardgame_ids' => $boardgamesIds], 200);
+    return response()->json(['boardgame_ids' => $boardgamesIds,'cookies' =>$cookies], 200);
 }
 
 }

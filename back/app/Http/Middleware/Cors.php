@@ -15,8 +15,20 @@ class Cors
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request)
-        ->header('Access-Control-Allow-Origin', '*')
-        ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        $response = $next($request);
+
+        // Handle CORS headers
+        $response
+            ->header('Access-Control-Allow-Origin', '*')
+            ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+            ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+        // Handle preflight requests
+        if ($request->getMethod() === 'OPTIONS') {
+            $response->setStatusCode(200);
+            $response->setContent(null);
+        }
+
+        return $response;
     }
 }

@@ -11,7 +11,10 @@ const Game = ({ id }) => {
       try {
         const response = await axios.get(
           `http://localhost:8080/https://www.boardgamegeek.com/xmlapi2/thing?id=${id}`
-        );
+        );//Usar en local
+        // const response = await axios.get(
+        //   `https://www.boardgamegeek.com/xmlapi2/thing?id=${id}`
+        // ); //Usar en docker
         const dataParser = new xml2js.Parser({ explicitArray: false });
         dataParser.parseString(response.data, (err, result) => {
           if (err) throw err;
