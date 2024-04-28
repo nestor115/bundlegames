@@ -4,24 +4,27 @@ import { Link } from 'react-router-dom';
 import Game from '../components/Game';
 import ButtonComponent from '../components/ButtonComponent';
 import Prueba from '../components/Prueba';
+import { useDatabase } from "../hooks/Database.jsx";
+
 const BoardgamesPage = () => {
 const [boardgameIds, setBoardgameIds] = useState([]);
-
+const { getBoardgamesIds } = useDatabase();
  
-const cookies = document.cookie;
-console.log(cookies);
 
-const getBoardgamesIds = async () => {
-  try {
-      const response = await axios.get('http://127.0.0.1:8000/user/boardgame-ids');
-      setBoardgameIds(response.data.boardgame_ids);
-  } catch (error) {
-      console.error('Error al obtener los IDs de los juegos de mesa:', error);
-  }
-};
+
+
 useEffect(() => {
-   getBoardgamesIds();
+
+  const getIds = async function () {
+    const data = await getBoardgamesIds();
+    // console.log(data.boardgame_ids);
+    setBoardgameIds(data.boardgame_ids);
+  }
+getIds();
+
 }, []);
+
+
 
   return (
     <div>
@@ -29,10 +32,25 @@ useEffect(() => {
       
       <ButtonComponent route={'/login'} buttonText={'Logout'}/>
     
-    {boardgameIds.map((boardgameId)=>(
-      // <p key={boardgameId}>{boardgameId}</p>
-      <Game id={boardgameId} key={boardgameId}/>
-    ))}
+
+
+{boardgameIds !== null ? (
+  boardgameIds.map((boardgameId)=>(
+    // <p key={boardgameId}>{boardgameId}</p>
+    <Game id={boardgameId} key={boardgameId}/>
+  ))
+) : (
+    <p>Cargando</p>
+)}
+
+
+
+
+    {/* {boardgameIds.map((boardgameId)=>(
+      <p key={boardgameId}>{boardgameId}</p>
+      // <Game id={boardgameId} key={boardgameId}/>
+    ))} */}
+       
 
        
        {/* <Game id="297318"/>

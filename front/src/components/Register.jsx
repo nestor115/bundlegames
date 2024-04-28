@@ -2,33 +2,36 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const Register = () => {
-    const [nameValue, setNameValue] = useState('');
     const [emailValue, setEmailValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
 
     const registerUser = async (userData) =>{
        try{
-        const response = await axios.post('http://127.0.0.1:8000/register2', userData);
-        // const response = await axios.post('http://app:8001/register2', userData);
-        console.log(response.data);
-       } catch (error) {
-        if (error.response) {
-            // La solicitud fue hecha pero el servidor respondió con un código de error
-            console.error('Error:', error.response.data);
-        } else if (error.request) {
-            // La solicitud fue hecha pero no se recibió respuesta
-            console.error('No response from server:', error.request);
+        const response = await fetch('http://127.0.0.1:8000/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*', // Si es necesario para CORS
+            },
+            body: JSON.stringify(userData),
+            credentials: 'include', // Para incluir las cookies en la solicitud
+        });
+        const responseData = await response.json();
+        if (response.ok) {
+            console.log(responseData);
+            // Aquí puedes manejar la respuesta exitosa según tus necesidades
         } else {
-            // Algo sucedió en la configuración de la solicitud que provocó un error
-            console.error('Error setting up request:', error.message);
+            // Si la respuesta no es exitosa, lanzamos un error con el mensaje del servidor
+            throw new Error(responseData.message || 'Registration failed');
         }
+    } catch (error) {
+        console.error('Error:', error.message);
     }
 };
 
     const handleRegister =() => {
 
         const userData ={
-            name: nameValue,
             email: emailValue,
             password: passwordValue
         };
@@ -42,9 +45,6 @@ const Register = () => {
     return(
         <div>
             <h1>Registrarse</h1>
-            <input type="text" name="name" id="name" placeholder='nombre'
-            value={nameValue} 
-            onChange={(e)=> setNameValue(e.target.value)}/>
             <input type="email" name="email" id="email" placeholder='correo'
             value={emailValue} 
             onChange={(e)=> setEmailValue(e.target.value)}/>

@@ -14,7 +14,7 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $fillable = [
         'name',
@@ -32,20 +32,16 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    // /**
-    //  * Get the attributes that should be cast.
-    //  *
-    //  * @return array<string, string>
-    //  */
-    // protected function casts(): array
-    // {
-    //     return [
-    //         'password' => 'hashed',
-    //     ];
-    // }
-
-    public function boardgames()
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
     {
-        return $this->hasMany(UserBoardgames::class, 'user_id');
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
     }
 }

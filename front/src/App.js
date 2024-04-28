@@ -6,6 +6,8 @@ import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import axios from 'axios';
+// import AuthContext from './context/Auth.jsx';
+
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
@@ -15,7 +17,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
   return (
-
+    
     <Router>
     <div>
       <Routes>
@@ -28,6 +30,7 @@ function App() {
       </Routes>
     </div>
   </Router>
+  
     
     
   );
