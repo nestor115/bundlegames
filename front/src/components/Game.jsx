@@ -3,25 +3,36 @@ import axios from "axios";
 import xml2js from "xml2js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useApiBoardgames } from "../hooks/ApiBoardgames";
+import { useNavigate } from "react-router-dom";
+
 const Game = ({ id }) => {
+  const navigate = useNavigate();
   const [gameName, setGameName] = useState("");
   const [gameImage, setGameImage] = useState("");
   const { getBoardGameInfo } = useApiBoardgames();
+  const [gameDetails, setGameDetails] = useState(null);
   const [errors, setErrors] = useState("");
-  
+
   useEffect(() => {
-
     const getInfo = async function (id) {
-      const data = await getBoardGameInfo({setErrors,id});
-      
+      const data = await getBoardGameInfo({ setErrors, id });
 
-
-      
       const dataParser = new xml2js.Parser({ explicitArray: false });
       dataParser.parseString(data, (err, result) => {
         if (err) throw err;
         if (result) {
           let game = null;
+
+          const details = {
+            name: "",
+            image: "",
+            year: "",
+            description: "",
+            maxPlayers: "",
+            minPlayers: "",
+            publisher: "",
+          };
+
           if (result.items && result.items.item) {
             game = result.items.item;
           } else if (result.item) {
@@ -31,6 +42,11 @@ const Game = ({ id }) => {
           if (game) {
             let nameValue = "";
             let imageUrl = "";
+            let year = "";
+            let description = "";
+            let maxPlayers = "";
+            let minPlayers = "";
+            let publisher = "";
 
             // Obtener el nombre del juego
             if (game.name && Array.isArray(game.name)) {
@@ -47,6 +63,25 @@ const Game = ({ id }) => {
               imageUrl = game.image;
             }
 
+            if (game.yearpublished) {
+              details.year = game.yearpublished.$;
+            }
+            if (game.description) {
+              details.description = game.description;
+            }
+            if (game.maxplayers) {
+              details.maxPlayers = game.maxplayers.$;
+            }
+            if (game.minplayers) {
+              details.minPlayers = game.minplayers.$;
+            }
+            const boardgamepublisher = game.link.find(
+              (link) => link.$.type === "boardgamepublisher"
+            );
+            if (boardgamepublisher) {
+              details.publisher = boardgamepublisher.$.value;
+            }
+            setGameDetails(details);
             setGameName(nameValue);
             setGameImage(imageUrl);
           }
@@ -57,6 +92,12 @@ const Game = ({ id }) => {
     getInfo(id);
   }, []);
 
+  function goToDetails() {
+    navigate(`/boardgames/${id}`, {
+      state: { name: gameName, photo: gameImage, details:gameDetails },
+    });
+  }
+
   if (!gameName) {
     return <div>Cargando...</div>;
   }
@@ -64,7 +105,7 @@ const Game = ({ id }) => {
   return (
     <div className="container mt-5">
       <div className="card border-dark" style={{ width: "300px" }}>
-      {errors ? "Error" + errors : null}
+        {errors ? "Error" + errors : null}
         <img
           src={gameImage}
           className="card-img-top"
@@ -74,6 +115,7 @@ const Game = ({ id }) => {
         <div className="card-body">
           <h5 className="card-title">{gameName}</h5>
           {/* Aquí puedes agregar más detalles del juego si lo deseas */}
+          <button onClick={goToDetails}>Details</button>
         </div>
       </div>
     </div>
