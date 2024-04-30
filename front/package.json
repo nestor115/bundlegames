@@ -19,6 +19,7 @@
     "timers": "^0.1.1",
     "timers-browserify": "^2.0.12",
     "web-vitals": "^2.1.4",
+    "xml-js": "^1.6.11",
     "xml2js": "^0.6.2"
   },
   "scripts": {

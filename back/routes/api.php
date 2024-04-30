@@ -7,3 +7,5 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('/boardgameinfo/{id}',[ApiController::class, 'getBoardGameInfo'])->name('boardgameinfo');
+
+Route::get('/searchBoardgame/{searchTerm}',[ApiController::class, 'searchBoardgame'])->name('search');

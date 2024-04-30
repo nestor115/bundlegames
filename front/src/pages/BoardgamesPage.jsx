@@ -31,6 +31,7 @@ getIds();
       <h1>Juegos de Mesa</h1>
       
       <ButtonComponent route={'/login'} buttonText={'Logout'}/>
+      <ButtonComponent route={'/search'} buttonText={'Añadir Juego'}/>
     
 
 

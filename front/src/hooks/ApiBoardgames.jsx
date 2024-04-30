@@ -8,12 +8,6 @@ export const useApiBoardgames = () => { //2 props que se pasan
     
 
     const getBoardGameInfo = async ({setErrors ,id}) => {
-        //    const response = await axios.get('/api/boardgameinfo',{
-        //         params: {
-        //             id:id
-        //         }
-        //     });
-        //     return response.data;
 
             return axios
             .get('/api/boardgameinfo/'+id)
@@ -24,12 +18,24 @@ export const useApiBoardgames = () => { //2 props que se pasan
             })
     }
     
+
+    const getSearchBoardgame = async ({setErrors ,searchTerm}) => {
+
+            return axios
+            .get('/api/searchBoardgame/'+searchTerm)
+            .then(res =>res.data)
+            .catch(error => {
+                if (error.response.status !== 409) throw error
+                setErrors(error);
+            })
+    }
     // 
     
 
   
 
     return {
-       getBoardGameInfo
+       getBoardGameInfo,
+       getSearchBoardgame
     }
 }
