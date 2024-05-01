@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import xmlJs from "xml-js";
 import xml2js from "xml2js";
+import { useNavigate } from "react-router-dom";
 
 import { useApiBoardgames } from "../hooks/ApiBoardgames";
 const SearchPage = () => {
@@ -11,6 +12,8 @@ const SearchPage = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [boardGames, setBoardGames] = useState([]);
+  const navigate = useNavigate();
+
   // Function to handle the search operation
   const handleSearch = async () => {
     try {
@@ -34,7 +37,9 @@ const SearchPage = () => {
       console.error("Error searching for games:", error);
     }
   };
-
+  function goToDetails(id) {
+    navigate(`/boardgames/${id}`);
+  }
 
   return (
     <div>
@@ -51,7 +56,7 @@ const SearchPage = () => {
       {errorMessage && <p>{errorMessage}</p>}
       <ul>
         {boardGames.map((game) => (
-          <li key={game.id}>
+          <li key={game.id} onClick={() => goToDetails(game.id)}>
             {game.id}, {game.name}, {game.yearpublished}
           </li>
         ))}

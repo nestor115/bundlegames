@@ -1,24 +1,29 @@
-import React from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/Auth.jsx";
+import { useDatabase } from "../hooks/Database.jsx";
 
-
-const ButtonComponent = ({ route,buttonText}) => {
-    const navigate = useNavigate();
+const ButtonComponent = (props) => {
+  const navigate = useNavigate();
   const { logout } = useAuth();
+  const { deleteBoardgame, addBoardgame } = useDatabase();
 
-    const handleClick = async () => {
-        if (route === '/login' && buttonText != 'Login') {
-            logout();
-    }else{
-        navigate(route);
+  const handleClick = async () => {
+    if (props.route === "/login" && props.buttonText != "Login") {
+      logout();
+    } else if (props.idBoardgame && props.buttonText == "Añadir") {
+         await addBoardgame(props.idBoardgame);
+    } else if (props.idBoardgame && props.buttonText == "Eliminar") {
+      await deleteBoardgame(props.idBoardgame);
+      window.location.reload();
+    } else {
+        
+      navigate(props.route);
     }
-    };
+  };
 
-    return (
-        <button onClick={handleClick}>{buttonText}</button>
-    );
+  return <button onClick={handleClick}>{props.buttonText}</button>;
 };
 
 export default ButtonComponent;

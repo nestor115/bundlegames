@@ -4,13 +4,13 @@ import xml2js from "xml2js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useApiBoardgames } from "../hooks/ApiBoardgames";
 import { useNavigate } from "react-router-dom";
+import ButtonComponent from "./ButtonComponent";
 
 const Game = ({ id }) => {
   const navigate = useNavigate();
   const [gameName, setGameName] = useState("");
   const [gameImage, setGameImage] = useState("");
   const { getBoardGameInfo } = useApiBoardgames();
-  const [gameDetails, setGameDetails] = useState(null);
   const [errors, setErrors] = useState("");
 
   useEffect(() => {
@@ -23,16 +23,6 @@ const Game = ({ id }) => {
         if (result) {
           let game = null;
 
-          const details = {
-            name: "",
-            image: "",
-            year: "",
-            description: "",
-            maxPlayers: "",
-            minPlayers: "",
-            publisher: "",
-          };
-
           if (result.items && result.items.item) {
             game = result.items.item;
           } else if (result.item) {
@@ -42,11 +32,7 @@ const Game = ({ id }) => {
           if (game) {
             let nameValue = "";
             let imageUrl = "";
-            let year = "";
-            let description = "";
-            let maxPlayers = "";
-            let minPlayers = "";
-            let publisher = "";
+            
 
             // Obtener el nombre del juego
             if (game.name && Array.isArray(game.name)) {
@@ -62,26 +48,6 @@ const Game = ({ id }) => {
             if (game.image) {
               imageUrl = game.image;
             }
-
-            if (game.yearpublished) {
-              details.year = game.yearpublished.$;
-            }
-            if (game.description) {
-              details.description = game.description;
-            }
-            if (game.maxplayers) {
-              details.maxPlayers = game.maxplayers.$;
-            }
-            if (game.minplayers) {
-              details.minPlayers = game.minplayers.$;
-            }
-            const boardgamepublisher = game.link.find(
-              (link) => link.$.type === "boardgamepublisher"
-            );
-            if (boardgamepublisher) {
-              details.publisher = boardgamepublisher.$.value;
-            }
-            setGameDetails(details);
             setGameName(nameValue);
             setGameImage(imageUrl);
           }
@@ -91,11 +57,9 @@ const Game = ({ id }) => {
 
     getInfo(id);
   }, []);
-
+  //TODO integrar esto en buttonComponent revisar, porque esta en otros sitios
   function goToDetails() {
-    navigate(`/boardgames/${id}`, {
-      state: { name: gameName, photo: gameImage, details:gameDetails },
-    });
+    navigate(`/boardgames/${id}`);
   }
 
   if (!gameName) {
@@ -116,6 +80,10 @@ const Game = ({ id }) => {
           <h5 className="card-title">{gameName}</h5>
           {/* Aquí puedes agregar más detalles del juego si lo deseas */}
           <button onClick={goToDetails}>Details</button>
+          <ButtonComponent buttonText="Eliminar" idBoardgame={id}/>
+
+
+
         </div>
       </div>
     </div>

@@ -16,6 +16,30 @@ export const useDatabase = () => { //2 props que se pasan
         })
     }
 
+    const addBoardgame= async(boardgameId) => {
+        
+        return axios
+        
+        .post(`/user/newboardgame/${boardgameId}`)
+        .then(res => res.data)
+        .catch(error => {
+            if (error.response.status !== 409) throw error
+
+        })
+    }
+
+    const deleteBoardgame= async(boardgameId) => {
+        
+        return axios
+        
+        .post(`/user/deleteboardgame/${boardgameId}`)
+        .then(res => res.data)
+        .catch(error => {
+            if (error.response.status !== 409) throw error
+
+        })
+    }
+
 
 
 
@@ -27,6 +51,8 @@ export const useDatabase = () => { //2 props que se pasan
   
 
     return {
-       getBoardgamesIds
+       getBoardgamesIds,
+       addBoardgame,
+       deleteBoardgame
     }
 }
