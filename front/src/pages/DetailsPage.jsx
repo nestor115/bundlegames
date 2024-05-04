@@ -3,12 +3,69 @@ import xml2js from "xml2js";
 import { useParams } from "react-router-dom";
 import { useApiBoardgames } from "../hooks/ApiBoardgames";
 import ButtonComponent from "../components/ButtonComponent";
+import { useDatabase } from "../hooks/Database";
 
-const DetailsPage = () => {
+const DetailsPage = (props) => {
   const { id } = useParams();
   const { getBoardGameInfo } = useApiBoardgames();
   const [gameDetails, setGameDetails] = useState(null);
   const [errors, setErrors] = useState("");
+  const { getFriends, addPlayerFriend, getPlayerFriends, deletePlayerFriend } =
+    useDatabase();
+  const [friends, setFriends] = useState([]);
+  const [selectedFriend, setSelectedFriend] = useState();
+  const [playerFriends, setPlayerFriends] = useState([]);
+  const [selectedPlayerFriend, setSelectedPlayerFriend] = useState(null);
+
+  useEffect(() => {
+    const getAllFriends = async () => {
+      const data = await getFriends();
+      setFriends(data.friends);
+    };
+    getAllFriends();
+  }, []);
+  const handleFriendChange = (e) => {
+    setSelectedFriend(e.target.value);
+  };
+
+  const handlePlayerFriendClick = (friendId) => {
+    setSelectedPlayerFriend(friendId);
+  };
+  const handleDeletePlayerFriend = async () => {
+    if (!selectedPlayerFriend) {
+      alert("Selecciona un amigo para eliminarlo.");
+      return;
+    }
+    try {
+      await deletePlayerFriend(id,selectedPlayerFriend);
+      setSelectedPlayerFriend(null);
+      window.location.reload();
+    } catch (error) {
+      console.error("Error al eliminar amigo:", error);
+    }
+  };
+
+  useEffect(() => {
+    const getPlayerFriendsData = async () => {
+      const data = await getPlayerFriends(id);
+      setPlayerFriends(data.friends);
+    };
+    getPlayerFriendsData();
+  }, [id]);
+
+  const handleAddFriendToGame = async () => {
+    if (!selectedFriend) {
+      alert("Por favor, selecciona un amigo.");
+      return;
+    }
+    try {
+      await addPlayerFriend(id, selectedFriend);
+      alert("Amigo añadido correctamente al juego de mesa.");
+      window.location.reload();
+    } catch (error) {
+      console.error("Error al añadir amigo al juego de mesa:", error);
+    }
+  };
 
   useEffect(() => {
     const getInfo = async function (id) {
@@ -100,7 +157,48 @@ const DetailsPage = () => {
         players: {gameDetails.minPlayers.value}-{gameDetails.maxPlayers.value}
       </p>
       <p>Publicado por: {gameDetails.publisher}</p>
-      <ButtonComponent buttonText="Añadir" idBoardgame={id}/>
+      <p>source:{props.source}</p>
+      {props.source === "searchPage" && (
+        <ButtonComponent buttonText="Añadir" idBoardgame={id} />
+      )}
+      <div>
+        {props.source === "boardgamesPage" && (
+          <div>
+            <h1>Lista de Amigos</h1>
+            <select value={selectedFriend} onChange={handleFriendChange}>
+              <option value="">Selecciona un amigo</option>
+              {friends.map((friend) => (
+                <option key={friend.id} value={friend.id}>
+                  {friend.name}
+                </option>
+              ))}
+            </select>
+            <button onClick={handleAddFriendToGame}>
+              Añadir Amigo al Juego
+            </button>
+
+            <div>
+              <h1>Lista de Jugadores</h1>
+              <ul>
+                {Object.values(playerFriends).map((playerFriend) => (
+                  <li
+                    key={playerFriend.id}
+                    style={{
+                      color: playerFriend.id === selectedPlayerFriend ? "blue" : "black",
+                    }}
+                    onClick={() => handlePlayerFriendClick(playerFriend.id)}
+                  >
+                    {playerFriend.name}
+                  </li>
+                ))}
+              </ul>
+              <button onClick={handleDeletePlayerFriend}>
+                Eliminar jugador Seleccionado
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

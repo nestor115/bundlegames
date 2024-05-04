@@ -18,7 +18,6 @@ const ButtonComponent = (props) => {
       await deleteBoardgame(props.idBoardgame);
       window.location.reload();
     } else {
-        
       navigate(props.route);
     }
   };

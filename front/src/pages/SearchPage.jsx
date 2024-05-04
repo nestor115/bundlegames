@@ -38,7 +38,7 @@ const SearchPage = () => {
     }
   };
   function goToDetails(id) {
-    navigate(`/boardgames/${id}`);
+    navigate(`/game/${id}`);
   }
 
   return (

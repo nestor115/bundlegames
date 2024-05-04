@@ -44,4 +44,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function boardgames()
+    {
+        return $this->belongsToMany(Boardgame::class, 'user_boardgames', 'user_id', 'boardgame_id');
+    }
+    public function friends()
+    {
+        return $this->hasMany(Friend::class);
+    }
 }

@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_boardgames', function (Blueprint $table) {
+        Schema::create('friends', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('boardgame_id');
             $table->timestamps();
-            $table->primary(['user_id', 'boardgame_id']);
+            
+            // Definir la clave externa
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('boardgame_id')->references('id')->on('boardgames')->onDelete('cascade');
         });
     }
 
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_boardgames');
+        Schema::dropIfExists('friends');
     }
 };

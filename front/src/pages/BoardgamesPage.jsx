@@ -32,6 +32,8 @@ getIds();
       
       <ButtonComponent route={'/login'} buttonText={'Logout'}/>
       <ButtonComponent route={'/search'} buttonText={'Añadir Juego'}/>
+      <ButtonComponent route={'/friends'} buttonText={'Amigos'}/>
+
     
 
 
