@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import xmlJs from "xml-js";
+import React, { useState } from "react";
 import xml2js from "xml2js";
 import { useNavigate } from "react-router-dom";
 
@@ -9,7 +7,6 @@ const SearchPage = () => {
   const { getSearchBoardgame } = useApiBoardgames();
   const [searchTerm, setSearchTerm] = useState("");
   const [errors, setErrors] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [boardGames, setBoardGames] = useState([]);
   const navigate = useNavigate();

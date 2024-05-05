@@ -1,8 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import xmlJs from "xml-js";
-import xml2js from "xml2js";
-import { useNavigate } from "react-router-dom";
 import { useDatabase } from "../hooks/Database";
 const FriendsPage = () => {
 const { addFriend, getFriends,deleteFriend } = useDatabase();

@@ -3,69 +3,15 @@ import xml2js from "xml2js";
 import { useParams } from "react-router-dom";
 import { useApiBoardgames } from "../hooks/ApiBoardgames";
 import ButtonComponent from "../components/ButtonComponent";
-import { useDatabase } from "../hooks/Database";
+import FriendDetails from "../components/FriendDetails";
 
 const DetailsPage = (props) => {
   const { id } = useParams();
   const { getBoardGameInfo } = useApiBoardgames();
   const [gameDetails, setGameDetails] = useState(null);
   const [errors, setErrors] = useState("");
-  const { getFriends, addPlayerFriend, getPlayerFriends, deletePlayerFriend } =
-    useDatabase();
-  const [friends, setFriends] = useState([]);
-  const [selectedFriend, setSelectedFriend] = useState();
-  const [playerFriends, setPlayerFriends] = useState([]);
-  const [selectedPlayerFriend, setSelectedPlayerFriend] = useState(null);
 
-  useEffect(() => {
-    const getAllFriends = async () => {
-      const data = await getFriends();
-      setFriends(data.friends);
-    };
-    getAllFriends();
-  }, []);
-  const handleFriendChange = (e) => {
-    setSelectedFriend(e.target.value);
-  };
-
-  const handlePlayerFriendClick = (friendId) => {
-    setSelectedPlayerFriend(friendId);
-  };
-  const handleDeletePlayerFriend = async () => {
-    if (!selectedPlayerFriend) {
-      alert("Selecciona un amigo para eliminarlo.");
-      return;
-    }
-    try {
-      await deletePlayerFriend(id,selectedPlayerFriend);
-      setSelectedPlayerFriend(null);
-      window.location.reload();
-    } catch (error) {
-      console.error("Error al eliminar amigo:", error);
-    }
-  };
-
-  useEffect(() => {
-    const getPlayerFriendsData = async () => {
-      const data = await getPlayerFriends(id);
-      setPlayerFriends(data.friends);
-    };
-    getPlayerFriendsData();
-  }, [id]);
-
-  const handleAddFriendToGame = async () => {
-    if (!selectedFriend) {
-      alert("Por favor, selecciona un amigo.");
-      return;
-    }
-    try {
-      await addPlayerFriend(id, selectedFriend);
-      alert("Amigo añadido correctamente al juego de mesa.");
-      window.location.reload();
-    } catch (error) {
-      console.error("Error al añadir amigo al juego de mesa:", error);
-    }
-  };
+  
 
   useEffect(() => {
     const getInfo = async function (id) {
@@ -113,7 +59,11 @@ const DetailsPage = (props) => {
               details.year = game.yearpublished.$;
             }
             if (game.description) {
-              details.description = game.description;
+              let descriptionText= game.description;
+              var txt = document.createElement("textarea");
+              txt.innerHTML = descriptionText;
+              details.description =txt.value;
+
             }
             if (game.maxplayers) {
               details.maxPlayers = game.maxplayers.$;
@@ -141,65 +91,33 @@ const DetailsPage = (props) => {
   }
 
   return (
-    <div>
-      <h2>Detalles del Juego</h2>
-      <h3>{gameDetails.name}</h3>
-      <img
-        src={gameDetails.image}
-        className="card-img-top"
-        alt={gameDetails.name}
-        style={{ height: "200px", objectFit: "contain" }}
-      />
-      <p>ID del Juego: {id}</p>
-      <p>Año de publicacion: {gameDetails.year.value}</p>
-      <p>Descripcion: {gameDetails.description}</p>
-      <p>
-        players: {gameDetails.minPlayers.value}-{gameDetails.maxPlayers.value}
-      </p>
-      <p>Publicado por: {gameDetails.publisher}</p>
-      <p>source:{props.source}</p>
-      {props.source === "searchPage" && (
-        <ButtonComponent buttonText="Añadir" idBoardgame={id} />
-      )}
-      <div>
-        {props.source === "boardgamesPage" && (
-          <div>
-            <h1>Lista de Amigos</h1>
-            <select value={selectedFriend} onChange={handleFriendChange}>
-              <option value="">Selecciona un amigo</option>
-              {friends.map((friend) => (
-                <option key={friend.id} value={friend.id}>
-                  {friend.name}
-                </option>
-              ))}
-            </select>
-            <button onClick={handleAddFriendToGame}>
-              Añadir Amigo al Juego
-            </button>
+    <div className="bg-orange-100 p-4">
+  <h1 className="text-3xl mb-10 text-center ">{gameDetails.name}</h1>
+  <img
+    src={gameDetails.image}
+    className="rounded-lg mx-auto mb-4"
+    alt={gameDetails.name}
+    style={{ maxHeight: "200px", objectFit: "contain" }}
+  />
+  <div className="flex justify-center mt-12">
+  <div className="max-w-screen-lg w-full px-4">
+    <p className="mb-4"><strong>Descripción:</strong> {gameDetails.description}</p>
+    <p className="mb-4"><strong>Año de publicación:</strong> {gameDetails.year.value}</p>
+    <p className="mb-4"><strong>Jugadores:</strong> {gameDetails.minPlayers.value} - {gameDetails.maxPlayers.value}</p>
+    <p className="mb-4"><strong>Publicado por:</strong> {gameDetails.publisher}</p>
 
-            <div>
-              <h1>Lista de Jugadores</h1>
-              <ul>
-                {Object.values(playerFriends).map((playerFriend) => (
-                  <li
-                    key={playerFriend.id}
-                    style={{
-                      color: playerFriend.id === selectedPlayerFriend ? "blue" : "black",
-                    }}
-                    onClick={() => handlePlayerFriendClick(playerFriend.id)}
-                  >
-                    {playerFriend.name}
-                  </li>
-                ))}
-              </ul>
-              <button onClick={handleDeletePlayerFriend}>
-                Eliminar jugador Seleccionado
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
+    {props.source === "searchPage" && (
+      <ButtonComponent className="mt-4" buttonText="Añadir" idBoardgame={id} />
+    )}
+
+    <div>
+      {props.source === "boardgamesPage" && (
+        <FriendDetails id={id}/>
+      )}
     </div>
+  </div>
+</div>
+</div>
   );
 };
 

@@ -9,6 +9,7 @@ import axios from "axios";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import SearchPage from "./pages/SearchPage";
 import FriendsPage from "./pages/FriendsPage";
+import 'tailwindcss/tailwind.css';
 
 // Configurar Axios para incluir cookies en las solicitudes
 // axios.defaults.withCredentials = true;

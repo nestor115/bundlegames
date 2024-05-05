@@ -1,10 +1,6 @@
-import useSWR from 'swr'
 import axios from '../lib/axios'
-import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 export const useApiBoardgames = () => { //2 props que se pasan
-    const navigate = useNavigate()
     
 
     const getBoardGameInfo = async ({setErrors ,id}) => {
