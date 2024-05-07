@@ -39,22 +39,31 @@ const SearchPage = () => {
   }
 
   return (
-    <div>
+    <div className="container mx-auto p-6">
       {/* Input field for search term */}
       <input
+        className="border border-gray-300 rounded-md p-2 mb-4"
         type="text"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         placeholder="Search for a game..."
       />
       {/* Button to trigger search */}
-      <button onClick={handleSearch}>Search</button>
-      {/* Display error message, if any */}
-      {errorMessage && <p>{errorMessage}</p>}
-      <ul>
+      <button
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        onClick={handleSearch}
+      >
+        Search
+      </button>
+      <ul className="mt-4">
+        {/* Display search results */}
         {boardGames.map((game) => (
-          <li key={game.id} onClick={() => goToDetails(game.id)}>
-            {game.id}, {game.name}, {game.yearpublished}
+          <li
+            key={game.id}
+            className="cursor-pointer border border-gray-300 rounded-md p-2 mb-2 hover:bg-orange-200"
+            onClick={() => goToDetails(game.id)}
+          >
+            <span className="font-semibold">{game.name}</span> - {game.yearpublished}
           </li>
         ))}
       </ul>

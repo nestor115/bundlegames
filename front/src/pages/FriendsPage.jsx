@@ -9,7 +9,6 @@ const { addFriend, getFriends,deleteFriend } = useDatabase();
 
     const getAllFriends = async function () {
       const data = await getFriends();
-      // console.log(data.boardgame_ids);
       setFriends(data.friends);
     }
   getAllFriends();
@@ -19,7 +18,11 @@ const { addFriend, getFriends,deleteFriend } = useDatabase();
 
   const handleSubmit = async (e) => {
       e.preventDefault();
-    //   setFriends([...friends, friendName]);
+    const existingFriend = friends.find(friend => friend.name === friendName);
+    if (existingFriend) {
+      alert("Este amigo ya está en la lista.");
+      return;
+    }
     await addFriend(friendName);
       setFriendName(''); 
       window.location.reload();
@@ -31,7 +34,7 @@ const { addFriend, getFriends,deleteFriend } = useDatabase();
 
   const handleDeleteFriend = async () => {
     if (!selectedFriend) {
-      alert("Selecciona un amigo para eliminarlo.");
+      alert("Select a friend to remove.");
       return;
     }
     try {
@@ -45,32 +48,52 @@ const { addFriend, getFriends,deleteFriend } = useDatabase();
   };
 
   return (
-      <div>
-          <h1>Lista de Amigos</h1>
-          <ul>
-        {Object.values(friends).map((friend) => (
-          <li
-            key={friend.id}
-            style={{ color: friend.id === selectedFriend ? "blue" : "black" }}
-            onClick={() => handleFriendClick(friend.id)}
-          >
-            {friend.name}
-            
-          </li>
-        ))}
-      </ul>
-      <button onClick={handleDeleteFriend}>Eliminar Amigo Seleccionado</button>
-          <h2>Agregar Nuevo Amigo</h2>
-          <form onSubmit={handleSubmit}>
-              <input
-                  type="text"
-                  value={friendName}
-                  onChange={(e) => setFriendName(e.target.value)}
-                  placeholder="Nombre del amigo"
-              />
-              <button type="submit">Agregar Amigo</button>
-          </form>
-      </div>
+    <div className="bg-orange-100 p-4">
+  <h1 className="text-2xl mb-4">Friends list</h1>
+
+  <div className="max-w-xs">
+    <ul className="mb-4">
+      {Object.values(friends).map((friend) => (
+        <li
+          key={friend.id}
+          className={`py-2 px-4 rounded-md cursor-pointer transition-colors duration-300 ${
+            friend.id === selectedFriend
+              ? "text-white bg-orange-400"
+              : "text-gray-800 hover:bg-orange-200"
+          }`}
+          onClick={() => handleFriendClick(friend.id)}
+        >
+          {friend.name}
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <button
+    className="bg-red-500 text-white px-4 py-2 rounded-lg mb-4"
+    onClick={handleDeleteFriend}
+  >
+    Delete selected friend
+  </button>
+
+  <h2 className="text-lg mb-2">Add new friend</h2>
+  <form onSubmit={handleSubmit} className="flex items-center mb-4">
+    <input
+      type="text"
+      value={friendName}
+      onChange={(e) => setFriendName(e.target.value)}
+      placeholder="Friend name"
+      className="mr-2 px-4 py-2 border border-gray-300 rounded-lg"
+    />
+    <button
+      type="submit"
+      className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+    >
+      Add friend
+    </button>
+  </form>
+</div>
+
   );
 }
 export default FriendsPage;

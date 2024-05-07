@@ -19,15 +19,36 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      {errors ? "Error" + errors : null}
-      <form action="" onSubmit={(e) => handleLogin(e)}>
-        <input type="email" name="email" placeholder="Email" />
-        <input type="password" name="password" placeholder="Password" />
-        <button type="submit">Login</button>
+    <div className="flex items-center justify-center h-screen">
+    <div className="bg-white p-8 rounded-lg shadow-lg">
+      <h1 className="text-2xl font-semibold mb-4 text-center">Login</h1>
+      {errors && <p className="text-red-500 mb-4">Error: {errors}</p>}
+      <form onSubmit={handleLogin}>
+        <div className="mb-4">
+          <input
+            className="border border-gray-300 rounded-md p-2 w-full"
+            type="email"
+            name="email"
+            placeholder="Email"
+          />
+        </div>
+        <div className="mb-4">
+          <input
+            className="border border-gray-300 rounded-md p-2 w-full"
+            type="password"
+            name="password"
+            placeholder="Password"
+          />
+        </div>
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+          type="submit"
+        >
+          Login
+        </button>
       </form>
     </div>
+  </div>
   );
 };
 

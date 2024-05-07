@@ -43,17 +43,26 @@ class DatabaseController extends Controller
 
     public function deleteBoardgame($boardgameId)
     {
-        $user = auth()->user();
+     // Obtener el usuario autenticado
+     $user = auth()->user();
 
-        // Verificar si el juego de mesa está asociado al usuario
-        if (!$user->boardgames()->where('id', $boardgameId)->exists()) {
-            return response()->json(['error' => 'El juego de mesa no está asociado al usuario'], 404);
-        }
-
-        // Eliminar la asociación entre el usuario y el juego de mesa
-        $user->boardgames()->detach($boardgameId);
-        return response()->json(['message' => 'Juego de mesa eliminado correctamente']);
-    }
+     // Verificar si el usuario está autenticado
+     if (!$user) {
+         return response()->json(['error' => 'Usuario no autenticado'], 401);
+     }
+ 
+     // Obtener los amigos asociados al juego de mesa y el usuario actual
+     $friends = $this->getPlayerFriends($boardgameId)->original['friends'];
+ 
+     // Desvincular los amigos asociados al juego de mesa para el usuario autenticado
+     $boardgame = Boardgame::findOrFail($boardgameId);
+     $boardgame->friends()->detach($friends->pluck('id'));
+ 
+     // Eliminar el juego de mesa
+     $boardgame->delete();
+ 
+     return response()->json(['message' => 'El juego de mesa y sus amigos han sido eliminados correctamente']);
+ }
 
 
     public function addFriend($friendName)
@@ -123,13 +132,22 @@ public function addPlayerFriend($boardgameId, $friendId)
 
 public function getPlayerFriends($boardgameId)
 {
+       // Obtener el usuario autenticado
+    $user = auth()->user();
+
+    // Verificar si el usuario está autenticado
+    if (!$user) {
+        return response()->json(['error' => 'Usuario no autenticado'], 401);
+    }
+
     // Obtener el juego de mesa por su ID
     $boardgame = Boardgame::findOrFail($boardgameId);
 
-    // Obtener los amigos asociados con el juego de mesa
-    $friends = $boardgame->friends;
+    // Obtener los amigos asociados con el juego de mesa y el usuario actual
+    $friends = $boardgame->friends()->where('user_id', $user->id)->get();
 
     return response()->json(['friends' => $friends]);
+
 }
 public function deletePlayerFriend($boardgameId, $friendId)
 {

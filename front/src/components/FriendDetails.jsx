@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDatabase } from "../hooks/Database";
+import Loading from "./Loading";
 
 const FriendDetails = (props) => {
   const { getFriends, addPlayerFriend, getPlayerFriends, deletePlayerFriend } =
@@ -9,13 +10,16 @@ const FriendDetails = (props) => {
   const [selectedFriend, setSelectedFriend] = useState();
   const [playerFriends, setPlayerFriends] = useState([]);
   const [selectedPlayerFriend, setSelectedPlayerFriend] = useState(null);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const getAllFriends = async () => {
       const data = await getFriends();
       setFriends(data.friends);
+      setLoading(false);
+
     };
     getAllFriends();
+
   }, []);
   const handleFriendChange = (e) => {
     setSelectedFriend(e.target.value);
@@ -51,27 +55,42 @@ const FriendDetails = (props) => {
       alert("Por favor, selecciona un amigo.");
       return;
     }
+    const selectedFriendId = parseInt(selectedFriend);
+    const existingFriend = playerFriends.map(friend => friend.id).includes(selectedFriendId);
+
+    if (existingFriend) {
+      alert("Este amigo ya esta en la lista de jugadores");
+      return;
+    }
+
     try {
       await addPlayerFriend(props.id, selectedFriend);
       alert("Amigo añadido correctamente al juego de mesa.");
-      window.location.reload();
+      // window.location.reload();
+      const updatedPlayerFriends = await getPlayerFriends(props.id);
+      setPlayerFriends(updatedPlayerFriends.friends);
     } catch (error) {
       console.error("Error al añadir amigo al juego de mesa:", error);
     }
   };
 
+  if (loading) {
+    return (
+      <Loading source="DetailsPage"/>
+    );
+  }
   
 
   return (
     
     <div className="bg-orange-200 border border-gray-300 rounded-lg shadow p-6">
-    <h1 className="text-xl font-semibold mb-4 text-center">Lista de Amigos</h1>
+    <h1 className="text-xl font-semibold mb-4 text-center">Friends list</h1>
     <select
       className="block w-full p-2 border border-gray-300 rounded-md mb-4"
       value={selectedFriend}
       onChange={handleFriendChange}
     >
-      <option value="">Selecciona un amigo</option>
+      <option value="">Select a friend</option>
       {friends.map((friend) => (
         <option key={friend.id} value={friend.id}>
           {friend.name}
@@ -83,11 +102,11 @@ const FriendDetails = (props) => {
       className="block w-full px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
       onClick={handleAddFriendToGame}
     >
-      Añadir Amigo al Juego
+      Add friend to game
     </button>
 
     <div className="mt-8">
-      <h1 className="text-xl font-semibold mb-4">Lista de Jugadores</h1>
+      <h1 className="text-xl font-semibold mb-4">Players list</h1>
       <ul>
         {Object.values(playerFriends).map((playerFriend) => (
           <li
@@ -106,7 +125,7 @@ const FriendDetails = (props) => {
         className="block mt-4 px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600"
         onClick={handleDeletePlayerFriend}
       >
-        Eliminar jugador Seleccionado
+        Delete selected player
       </button>
     </div>
   </div>

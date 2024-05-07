@@ -3,6 +3,7 @@ import xml2js from "xml2js";
 import { useApiBoardgames } from "../hooks/ApiBoardgames";
 import { useNavigate } from "react-router-dom";
 import ButtonComponent from "./ButtonComponent";
+import Loading from "./Loading";
 
 const Game = ({ id }) => {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ const Game = ({ id }) => {
   const [gameImage, setGameImage] = useState("");
   const { getBoardGameInfo } = useApiBoardgames();
   const [errors, setErrors] = useState("");
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const getInfo = async function (id) {
       const data = await getBoardGameInfo({ setErrors, id });
@@ -48,6 +49,7 @@ const Game = ({ id }) => {
             }
             setGameName(nameValue);
             setGameImage(imageUrl);
+            setLoading(false);
           }
         }
       });
@@ -58,23 +60,24 @@ const Game = ({ id }) => {
   //TODO integrar esto en buttonComponent revisar, porque esta en otros sitios
   
 
-  if (!gameName) {
-    return <div>Cargando...</div>;
+  if (loading) {
+    return (
+      <Loading source="BoardgamesPage"/>
+    );
   }
 
   return (
-    <div className="m-6 max-w-xs bg-white border-2 border-gray-300 rounded-lg shadow" style={{ width: "300px" }}>
-  <img className="rounded-3xl mx-auto mt-4" src={gameImage} alt={gameName} style={{ maxHeight: "200px" }} />
+    <div className="m-6 max-w-xs h-80 bg-white border-2 border-gray-300 rounded-lg shadow" style={{ width: "300px" }}>
+  <img className=" max-h-40 rounded-3xl mx-auto mt-4" src={gameImage} alt={gameName}  />
   <div className="p-5 text-center">
     <h5 className="mb-2 text-gray-900" style={{ fontSize: gameName.length > 20 ? "1rem" : "1.5rem", lineHeight: "1.2", maxHeight: "3.6em", overflow: "hidden", textOverflow: "ellipsis" }}>
       {gameName}
     </h5>
-    <div className="flex justify-between">
-      <ButtonComponent route={`/boardgames/${id}`} buttonText={"Detalles"} />
+<div className="flex justify-between "> 
+      <ButtonComponent route={`/boardgames/${id}`} buttonText={"Details"} />
       <ButtonComponent
-        buttonText="Eliminar"
+        buttonText="Delete"
         idBoardgame={id}
-        className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300"
       />
     </div>
   </div>

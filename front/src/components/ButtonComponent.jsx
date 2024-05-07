@@ -11,11 +11,14 @@ const ButtonComponent = (props) => {
   const handleClick = async () => {
     if (props.route === "/login" && props.buttonText != "Login") {
       logout();
-    } else if (props.idBoardgame && props.buttonText == "Añadir") {
+    } else if (props.idBoardgame && props.buttonText == "Add") {
          await addBoardgame(props.idBoardgame);
-    } else if (props.idBoardgame && props.buttonText == "Eliminar") {
+         navigate("/boardgames");
+    } else if (props.idBoardgame && props.buttonText == "Delete") {
       await deleteBoardgame(props.idBoardgame);
-      window.location.reload();
+    //  console.log("hola")
+    //  console.log(frase); 
+    //  window.location.reload();
     }else{
       navigate(props.route);
     }

@@ -4,13 +4,14 @@ import { useParams } from "react-router-dom";
 import { useApiBoardgames } from "../hooks/ApiBoardgames";
 import ButtonComponent from "../components/ButtonComponent";
 import FriendDetails from "../components/FriendDetails";
+import Loading from "../components/Loading";
 
 const DetailsPage = (props) => {
   const { id } = useParams();
   const { getBoardGameInfo } = useApiBoardgames();
   const [gameDetails, setGameDetails] = useState(null);
   const [errors, setErrors] = useState("");
-
+  const [loading, setLoading] = useState(true);
   
 
   useEffect(() => {
@@ -78,6 +79,7 @@ const DetailsPage = (props) => {
               details.publisher = boardgamepublisher.$.value;
             }
             setGameDetails(details);
+            setLoading(false);
           }
         }
       });
@@ -86,8 +88,10 @@ const DetailsPage = (props) => {
     getInfo(id);
   }, []);
 
-  if (!gameDetails) {
-    return <div>Loading...</div>; // Muestra un mensaje de carga mientras se obtienen los detalles del juego
+  if (loading) {
+    return (
+      <Loading/>
+    ) 
   }
 
   return (
@@ -101,13 +105,13 @@ const DetailsPage = (props) => {
   />
   <div className="flex justify-center mt-12">
   <div className="max-w-screen-lg w-full px-4">
-    <p className="mb-4"><strong>Descripción:</strong> {gameDetails.description}</p>
-    <p className="mb-4"><strong>Año de publicación:</strong> {gameDetails.year.value}</p>
-    <p className="mb-4"><strong>Jugadores:</strong> {gameDetails.minPlayers.value} - {gameDetails.maxPlayers.value}</p>
-    <p className="mb-4"><strong>Publicado por:</strong> {gameDetails.publisher}</p>
+    <p className="mb-4"><strong>Description:</strong> {gameDetails.description}</p>
+    <p className="mb-4"><strong>Year of publication:</strong> {gameDetails.year.value}</p>
+    <p className="mb-4"><strong>Players:</strong> {gameDetails.minPlayers.value} - {gameDetails.maxPlayers.value}</p>
+    <p className="mb-4"><strong>Published by:</strong> {gameDetails.publisher}</p>
 
     {props.source === "searchPage" && (
-      <ButtonComponent className="mt-4" buttonText="Añadir" idBoardgame={id} />
+      <ButtonComponent className="mt-4" buttonText="Add" idBoardgame={id} />
     )}
 
     <div>

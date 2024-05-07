@@ -18,12 +18,12 @@ const BoardgamesPage = () => {
 
   return (
     <div className="bg-orange-100 p-4">
-  <h1 className="text-2xl mb-4">Juegos de Mesa</h1>
+  <h1 className="text-4xl mb-4 text-center">Boardgames</h1>
 
-  <div className="flex flex-wrap gap-4">
+  <div className="mt-8 flex flex-wrap gap-4 justify-center">
     <ButtonComponent route={"/login"} buttonText={"Logout"} />
-    <ButtonComponent route={"/search"} buttonText={"Añadir Juego"} />
-    <ButtonComponent route={"/friends"} buttonText={"Amigos"} />
+    <ButtonComponent route={"/search"} buttonText={"New boardgame"} />
+    <ButtonComponent route={"/friends"} buttonText={"Friends"} />
   </div>
 
   <div className="flex flex-wrap gap-4 mt-4">
@@ -32,7 +32,7 @@ const BoardgamesPage = () => {
           <Game key={boardgameId} id={boardgameId} />
       ))
     ) : (
-      <p>Cargando</p>
+      <p>Loading</p>
     )}
   </div>
 </div>
