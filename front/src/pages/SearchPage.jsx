@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import xml2js from "xml2js";
 import { useNavigate } from "react-router-dom";
-
+import { FaSearch } from "react-icons/fa";
 import { useApiBoardgames } from "../hooks/ApiBoardgames";
 import Layout from "../components/Layout";
 const SearchPage = () => {
@@ -22,32 +22,41 @@ const SearchPage = () => {
         if (err) {
           throw new Error("Error parsing XML:", err);
         }
-        console.log(result);
-        console.log(result.items);
-        console.log(result.items.item);
-        if (result && result.items && result.items.item) {
-          // Verificar si solo hay un elemento en items
-          if (!Array.isArray(result.items.item)) {
-            // Si es un objeto, convertirlo en un array de un solo elemento
-            result.items.item = [result.items.item];
+        // console.log(result);
+        // console.log(result.items);
+        // console.log(result.items.item);
+        if (result && result.items) {
+          if (result.items.item) {
+              // Verificar si solo hay un elemento en items
+              if (!Array.isArray(result.items.item)) {
+                  // Si es un objeto, convertirlo en un array de un solo elemento
+                  result.items.item = [result.items.item];
+              }
+              // Iterar sobre cada elemento en items
+              const games = result.items.item.map((item) => ({
+                  id: item.$.id,
+                  name: item.name.$.value,
+                  yearpublished: item.yearpublished
+                      ? item.yearpublished.$.value
+                      : "date not available",
+              }));
+              setBoardGames(games);
+          } else {
+              // No se encontraron juegos
+              setErrorMessage("Results not found");
+              setBoardGames([]); // Limpiar la lista de juegos
+              alert(errorMessage);
           }
-          // Iterar sobre cada elemento en items
-          const games = result.items.item.map((item) => ({
-            id: item.$.id,
-            name: item.name.$.value,
-            yearpublished: item.yearpublished
-              ? item.yearpublished.$.value
-              : "date not available",
-          }));
-          setBoardGames(games);
-        } else {
+      } else {
           setErrorMessage("Results not found");
-        }
-      });
-    } catch (error) {
-      console.error("Error searching for games:", error);
-    }
-  };
+          setBoardGames([]); // Limpiar la lista de juegos
+          alert(errorMessage);
+      }
+  });
+} catch (error) {
+  console.error("Error searching for games:", error);
+}
+};
   function goToDetails(id) {
     navigate(`/game/${id}`);
   }
@@ -66,24 +75,25 @@ const SearchPage = () => {
       />
       {/* Button to trigger search */}
       <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        onClick={handleSearch}
-      >
-        Search
-      </button>
-      <ul className="mt-4">
-        {/* Display search results */}
-        {boardGames.map((game) => (
-          <li
-            key={game.id}
-            className="cursor-pointer border border-gray-300 rounded-md p-2 mb-2 hover:bg-orange-200"
-            onClick={() => goToDetails(game.id)}
-          >
-            <span className="font-semibold">{game.name}</span> -{" "}
-            {game.yearpublished}
-          </li>
-        ))}
-      </ul>
+  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center"
+  onClick={handleSearch}
+>
+  Search
+  <FaSearch className="ml-2" />
+</button>
+       <ul className="mt-4">
+          {/* Display search results */}
+          {boardGames.map((game) => (
+            <li
+              key={game.id}
+              className="cursor-pointer border border-orange-300 hover:text-white rounded-md p-2 mb-2 hover:bg-orange-400 transition-colors duration-300"
+              onClick={() => goToDetails(game.id)}
+            >
+              <span className="font-semibold">{game.name}</span> -{" "}
+              {game.yearpublished}
+            </li>
+          ))}
+        </ul>
     </div>
     </Layout>
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDatabase } from "../hooks/Database";
 import Layout from "../components/Layout";
+import { FaTrashAlt, FaPlus } from "react-icons/fa";
 const FriendsPage = () => {
 const { addFriend, getFriends,deleteFriend } = useDatabase();
   const [friendName, setFriendName] = useState('');
@@ -50,7 +51,7 @@ const { addFriend, getFriends,deleteFriend } = useDatabase();
 
   return (
     <Layout showButtons={true}>
-    <div className="bg-orange-100 p-4">
+    <div className=" p-4">
   <h1 className="text-2xl mb-4">Friends list</h1>
 
   <div className="max-w-xs">
@@ -58,9 +59,9 @@ const { addFriend, getFriends,deleteFriend } = useDatabase();
       {Object.values(friends).map((friend) => (
         <li
           key={friend.id}
-          className={`py-2 px-4 rounded-md cursor-pointer transition-colors duration-300 ${
+          className={`py-2 px-4 border border-orange-300 hover:bg-orange-400 hover:text-white  text-center rounded-md cursor-pointer transition-colors duration-300 ${
             friend.id === selectedFriend
-              ? "text-white bg-orange-400"
+              ? "text-white bg-orange-400 "
               : "text-gray-800 hover:bg-orange-200"
           }`}
           onClick={() => handleFriendClick(friend.id)}
@@ -72,11 +73,12 @@ const { addFriend, getFriends,deleteFriend } = useDatabase();
   </div>
 
   <button
-    className="bg-red-500 text-white px-4 py-2 rounded-lg mb-4"
-    onClick={handleDeleteFriend}
-  >
-    Delete selected friend
-  </button>
+  className="bg-red-500 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-lg flex items-center"
+  onClick={handleDeleteFriend}
+>
+  <FaTrashAlt className="mr-2" />
+  Delete selected friend
+</button>
 
   <h2 className="text-lg mb-2">Add new friend</h2>
   <form onSubmit={handleSubmit} className="flex items-center mb-4">
@@ -88,11 +90,12 @@ const { addFriend, getFriends,deleteFriend } = useDatabase();
       className="mr-2 px-4 py-2 border border-gray-300 rounded-lg"
     />
     <button
-      type="submit"
-      className="bg-blue-500 text-white px-4 py-2 rounded-lg"
-    >
-      Add friend
-    </button>
+  type="submit"
+  className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-lg flex items-center"
+>
+  <FaPlus className="mr-2" />
+  Add friend
+</button>
   </form>
 </div>
 </Layout>

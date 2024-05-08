@@ -97,7 +97,7 @@ const DetailsPage = (props) => {
 
   return (
     <Layout showButtons={true}>
-    <div className="bg-orange-100 p-4">
+    <div className=" p-4">
   <h1 className="text-3xl mb-10 text-center ">{gameDetails.name}</h1>
   <img
     src={gameDetails.image}

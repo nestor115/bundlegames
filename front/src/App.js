@@ -18,7 +18,7 @@ import PrivateRoute from "./components/PrivateRoute";
 function App() {
   return (
     <Router>
-      <div className="bg-orange-100">
+      <div>
         <Routes>
           <Route path="/" element={<DashboardPage />} />
           <Route path="/register" element={<RegisterPage />} />

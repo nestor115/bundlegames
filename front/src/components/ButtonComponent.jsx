@@ -53,7 +53,7 @@ const ButtonComponent = (props) => {
     return (
       <button
         onClick={handleClick}
-        className="bg-gray-300 hover:bg-gray-400 border border-gray-400 px-4 py-2 rounded-lg cursor-pointer"
+        className="bg-blue-300 text-black hover:bg-blue-400 border border-gray-400 px-4 py-2 rounded-lg cursor-pointer"
       >
         {props.buttonText}
       </button>

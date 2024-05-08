@@ -15,6 +15,11 @@ const Register = () => {
 
     const handleRegister =(e) => {
         e.preventDefault();
+        console.log(e.target.password.value)
+        if (e.target.password.value < 8) {
+          setErrors("The password must be at least 8 characters long."); // Mensaje de error en inglés
+          return;
+      }
         register({
             setErrors,
             name: e.target.name.value,
@@ -31,7 +36,7 @@ const Register = () => {
     return(
         <div className="flex items-center justify-center h-screen">
         <div className="bg-white p-8 rounded-lg shadow-lg">
-          <h1 className="text-2xl font-semibold mb-4 text-center">Registro</h1>
+          <h1 className="text-2xl font-semibold mb-4 text-center">Register</h1>
           {errors && <p className="text-red-500 mb-4">Error: {errors}</p>}
           <form onSubmit={handleRegister}>
             <div className="mb-4">

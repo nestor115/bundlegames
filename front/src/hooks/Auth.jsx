@@ -30,8 +30,18 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
             .then(() => mutate())
             .catch(error => {
                 if (error.response.status !== 422) throw error
-                console.log(error.response.data)
-                setErrors(error.response.data.errors)
+                const responseData = error.response.data
+                let errorMessage = "An error occurred"
+    
+                // Verificar si el error es debido a la longitud de la contraseña
+                if (responseData && responseData.errors && responseData.errors.password && responseData.errors.password.includes("least 8 characters")) {
+                    errorMessage = "The password must be at least 8 characters long." // Mensaje de error en inglés para contraseña corta
+                } else if (responseData && responseData.errors && responseData.errors.email) {
+                    errorMessage = "This email is already registered" // Mensaje de error en inglés para email ya registrado
+                }
+                
+                setErrors(errorMessage)
+                alert(errorMessage); // Mostrar alert con el mensaje de error
             })
     }
     //manda setErrors y email, password
@@ -49,7 +59,15 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
             })
             .catch(error => {
                 if (error.response.status !== 422) throw error
-                setErrors(error.response.data.errors)
+                const responseData = error.response.data
+                let errorMessage = "An error occurred"
+                if (responseData && responseData.message === "User or password not found") {
+                    errorMessage = "User or password not found"
+                } else if (responseData && responseData.errors && responseData.errors.email) {
+                    errorMessage = responseData.errors.email[0] 
+                }
+                setErrors(errorMessage)
+                alert(errorMessage);
             })
     }
 

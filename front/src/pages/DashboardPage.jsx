@@ -7,8 +7,7 @@ const DashboardPage = () => {
 
   return (
     <Layout showButtons={false}>
-    <div>
-      <h1>Bundlegames</h1>
+    <div className='mt-10 mb-10 text-center'>
       <ButtonComponent route={'/register'} buttonText={'Register'}/>
       <ButtonComponent route={'/login'} buttonText={'Login'}/>
 

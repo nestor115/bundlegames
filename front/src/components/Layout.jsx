@@ -3,7 +3,7 @@ import NavigationBar from "./NavigationBar";
 
 const Layout = ({ children, showButtons }) => {
   return (
-    <div className="min-h-screen bg-orange-100">
+    <div className="min-h-screen bg-orange-200">
       {/* Aquí puedes incluir tu barra de navegación, encabezado, pie de página, etc. */}
       <NavigationBar showButtons={showButtons}/>
       
