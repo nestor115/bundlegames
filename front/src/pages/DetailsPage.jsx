@@ -5,6 +5,7 @@ import { useApiBoardgames } from "../hooks/ApiBoardgames";
 import ButtonComponent from "../components/ButtonComponent";
 import FriendDetails from "../components/FriendDetails";
 import Loading from "../components/Loading";
+import Layout from "../components/Layout";
 
 const DetailsPage = (props) => {
   const { id } = useParams();
@@ -95,6 +96,7 @@ const DetailsPage = (props) => {
   }
 
   return (
+    <Layout showButtons={true}>
     <div className="bg-orange-100 p-4">
   <h1 className="text-3xl mb-10 text-center ">{gameDetails.name}</h1>
   <img
@@ -122,6 +124,7 @@ const DetailsPage = (props) => {
   </div>
 </div>
 </div>
+</Layout>
   );
 };
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Game from "../components/Game";
 import ButtonComponent from "../components/ButtonComponent";
 import { useDatabase } from "../hooks/Database.jsx";
+import Layout from "../components/Layout.jsx";
 
 const BoardgamesPage = () => {
   const [boardgameIds, setBoardgameIds] = useState([]);
@@ -17,6 +18,7 @@ const BoardgamesPage = () => {
   }, []);
 
   return (
+    <Layout showButtons={true}>
     <div className="bg-orange-100 p-4">
   <h1 className="text-4xl mb-4 text-center">Boardgames</h1>
 
@@ -36,6 +38,7 @@ const BoardgamesPage = () => {
     )}
   </div>
 </div>
+</Layout>
   );
 };
 

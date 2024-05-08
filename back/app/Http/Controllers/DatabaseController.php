@@ -58,8 +58,8 @@ class DatabaseController extends Controller
      $boardgame = Boardgame::findOrFail($boardgameId);
      $boardgame->friends()->detach($friends->pluck('id'));
  
-     // Eliminar el juego de mesa
-     $boardgame->delete();
+       // Eliminar el juego de mesa específicamente para el usuario actual
+       $user->boardgames()->detach($boardgameId);
  
      return response()->json(['message' => 'El juego de mesa y sus amigos han sido eliminados correctamente']);
  }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDatabase } from "../hooks/Database";
+import Layout from "../components/Layout";
 const FriendsPage = () => {
 const { addFriend, getFriends,deleteFriend } = useDatabase();
   const [friendName, setFriendName] = useState('');
@@ -48,6 +49,7 @@ const { addFriend, getFriends,deleteFriend } = useDatabase();
   };
 
   return (
+    <Layout showButtons={true}>
     <div className="bg-orange-100 p-4">
   <h1 className="text-2xl mb-4">Friends list</h1>
 
@@ -93,7 +95,7 @@ const { addFriend, getFriends,deleteFriend } = useDatabase();
     </button>
   </form>
 </div>
-
+</Layout>
   );
 }
 export default FriendsPage;

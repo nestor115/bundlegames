@@ -3,6 +3,7 @@ import xml2js from "xml2js";
 import { useNavigate } from "react-router-dom";
 
 import { useApiBoardgames } from "../hooks/ApiBoardgames";
+import Layout from "../components/Layout";
 const SearchPage = () => {
   const { getSearchBoardgame } = useApiBoardgames();
   const [searchTerm, setSearchTerm] = useState("");
@@ -21,14 +22,27 @@ const SearchPage = () => {
         if (err) {
           throw new Error("Error parsing XML:", err);
         }
-
-        const items = result.items.item;
-        const games = items.map((item) => ({
-           id: item.$.id,
-           name: item.name.$.value,
-           yearpublished : item.yearpublished ? item.yearpublished.$.value : 'Fecha no disponible'
-        }));
-        setBoardGames(games);
+        console.log(result);
+        console.log(result.items);
+        console.log(result.items.item);
+        if (result && result.items && result.items.item) {
+          // Verificar si solo hay un elemento en items
+          if (!Array.isArray(result.items.item)) {
+            // Si es un objeto, convertirlo en un array de un solo elemento
+            result.items.item = [result.items.item];
+          }
+          // Iterar sobre cada elemento en items
+          const games = result.items.item.map((item) => ({
+            id: item.$.id,
+            name: item.name.$.value,
+            yearpublished: item.yearpublished
+              ? item.yearpublished.$.value
+              : "date not available",
+          }));
+          setBoardGames(games);
+        } else {
+          setErrorMessage("Results not found");
+        }
       });
     } catch (error) {
       console.error("Error searching for games:", error);
@@ -39,6 +53,8 @@ const SearchPage = () => {
   }
 
   return (
+    <Layout showButtons={true}>
+
     <div className="container mx-auto p-6">
       {/* Input field for search term */}
       <input
@@ -63,11 +79,14 @@ const SearchPage = () => {
             className="cursor-pointer border border-gray-300 rounded-md p-2 mb-2 hover:bg-orange-200"
             onClick={() => goToDetails(game.id)}
           >
-            <span className="font-semibold">{game.name}</span> - {game.yearpublished}
+            <span className="font-semibold">{game.name}</span> -{" "}
+            {game.yearpublished}
           </li>
         ))}
       </ul>
     </div>
+    </Layout>
+
   );
 };
 
