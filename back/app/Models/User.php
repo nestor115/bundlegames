@@ -46,7 +46,7 @@ class User extends Authenticatable
     }
     public function boardgames()
     {
-        return $this->belongsToMany(Boardgame::class, 'user_boardgames', 'user_id', 'boardgame_id');
+        return $this->belongsToMany(Boardgame::class, 'boardgames_user', 'user_id', 'boardgame_id');
     }
     public function friends()
     {

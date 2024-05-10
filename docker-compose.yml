@@ -1,0 +1,47 @@
+version: "3.8"
+services:
+  web:
+    build: .
+    restart: always
+    ports:
+      - "80:80"
+    links:
+      - db
+    depends_on:
+      - db
+    networks:
+      networkwp:
+        ipv4_address: 172.24.0.11
+  db:
+    image: mysql:8.0.32
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: boardgamesdb
+      MYSQL_USER: nestor
+      MYSQL_PASSWORD: 1234
+    networks:
+      networkwp:
+        ipv4_address: 172.24.0.7
+  phpmyadmin:
+    image: phpmyadmin:5.2.1-apache
+    restart: always
+    links:
+      - db
+    depends_on:
+      - db
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+    networks:
+      networkwp:
+        ipv4_address: 172.24.0.25
+networks:
+  networkwp:
+    ipam:
+      config:
+        - subnet: 172.24.0.0/24

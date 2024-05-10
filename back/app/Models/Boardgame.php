@@ -12,7 +12,7 @@ class Boardgame extends Model
     // Relación inversa: Un juego de mesa puede tener muchos usuarios
     public function users()
     {
-        return $this->belongsToMany(User::class, 'user_boardgames', 'boardgame_id', 'user_id');
+        return $this->belongsToMany(User::class, 'boardgames_user', 'boardgame_id', 'user_id');
     }
     public function friends()
     {
