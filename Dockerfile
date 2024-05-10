@@ -46,6 +46,7 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 RUN ./composer.phar install
 # RUN php artisan passport:keys
 
+RUN php artisan migrate
 WORKDIR /var/www/html
 
 # SITE CONF
@@ -68,3 +69,5 @@ RUN chmod -R 777 ./intranet/intranet-api/storage
 # IMPORTANTE
 RUN a2enmod rewrite
 EXPOSE 80
+
+
