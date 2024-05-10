@@ -113,7 +113,7 @@ const FriendDetails = (props) => {
   {Object.values(playerFriends).map((playerFriend) => (
     <li
       key={playerFriend.id}
-      className={`py-2 mt-1 px-4 border bg-orange-200 border-orange-400 hover:bg-orange-400 hover:text-white text-center rounded-md cursor-pointer transition-colors duration-300 ${
+      className={`py-2 mt-1 px-4 border mt-2 bg-orange-200 border-orange-500 hover:bg-orange-400 hover:text-white text-center rounded-md cursor-pointer transition-colors duration-300 ${
         playerFriend.id === selectedPlayerFriend ? "text-white bg-orange-400" : "text-gray-800 hover:bg-orange-200"
       }`}
       onClick={() => handlePlayerFriendClick(playerFriend.id)}

@@ -34,7 +34,7 @@ const ButtonComponent = (props) => {
     return (
       <a
       onClick={handleClick}
-      className="block py-2 px-3 text-gray-900 rounded hover:bg-orange-200 md:hover:bg-transparent md:border-0 md:hover:text-gray-700 md:p-0 dark:text-white md:dark:hover:text-gray-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent cursor-pointer"
+      className="block py-2 px-3 text-gray-900 rounded hover:bg-orange-200 md:hover:bg-transparent md:border-0 md:hover:text-gray-700 md:p-0 dark:text-white md:dark:hover:text-gray-700 dark:hover:bg-orange-600 dark:hover:text-white md:dark:hover:bg-transparent cursor-pointer"
     >
       {props.buttonText}
     </a>
@@ -44,7 +44,7 @@ const ButtonComponent = (props) => {
       <a
       onClick={handleClick}
       href={props.route}
-      className="block py-2 px-3 text-gray-900 rounded hover:bg-orange-200 md:hover:bg-transparent md:border-0 md:hover:text-gray-700 md:p-0 dark:text-white md:dark:hover:text-gray-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+      className="block py-2 px-3 text-gray-900 rounded hover:bg-orange-200 md:hover:bg-transparent md:border-0 md:hover:text-orange-700 md:p-0 dark:text-white md:dark:hover:text-gray-700 dark:hover:bg-orange-600 dark:hover:text-white md:dark:hover:bg-transparent"
     >
       {props.buttonText}
     </a>

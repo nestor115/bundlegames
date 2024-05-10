@@ -86,7 +86,7 @@ const SearchPage = () => {
           {boardGames.map((game) => (
             <li
               key={game.id}
-              className="cursor-pointer border border-orange-300 hover:text-white rounded-md p-2 mb-2 hover:bg-orange-400 transition-colors duration-300"
+              className="cursor-pointer bg-orange-100 border border-orange-400 hover:text-white rounded-md p-2 mb-2 hover:bg-orange-400 transition-colors duration-300"
               onClick={() => goToDetails(game.id)}
             >
               <span className="font-semibold">{game.name}</span> -{" "}

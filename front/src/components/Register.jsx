@@ -37,7 +37,7 @@ const Register = () => {
         <div className="flex items-center justify-center h-screen">
         <div className="bg-white p-8 rounded-lg shadow-lg">
           <h1 className="text-2xl font-semibold mb-4 text-center">Register</h1>
-          {errors && <p className="text-red-500 mb-4">Error: {errors}</p>}
+          {errors && <p className="text-red-500 mb-4"> {errors}</p>}
           <form onSubmit={handleRegister}>
             <div className="mb-4">
               <input
