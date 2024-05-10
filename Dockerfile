@@ -1,7 +1,11 @@
 FROM php:8.2-apache
 
-
-RUN apt-get update 
+RUN apt-get update \
+    && apt-get install -y libzip-dev \
+    && apt-get install -y zlib1g-dev \
+    && apt-get install -y libpng-dev \
+    && rm -rf /var/lib/apt/lists/* \
+    && docker-php-ext-install zip
     
 # Nodejs y NPM
 RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -
@@ -10,7 +14,6 @@ RUN apt-get install -y nodejs
 # RUN apt install -y nodejs
 
 # CONEXIÓN BBDD
-RUN docker-php-ext-install gd && docker-php-ext-enable gd
 RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
 RUN docker-php-ext-install pdo && docker-php-ext-enable pdo
 RUN apt-get update \
@@ -65,7 +68,7 @@ RUN a2ensite bundlegames.conf
 
 USER root
 RUN chown -R www-data:www-data /var/www/html
-RUN chmod -R 777 ./intranet/intranet-api/storage
+#RUN chmod -R 777 ./intranet/intranet-api/storage
 # IMPORTANTE
 RUN a2enmod rewrite
 EXPOSE 80
