@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import ButtonComponent from "./ButtonComponent";
+import { Link } from "react-router-dom";
+import { useAuth } from "../hooks/Auth.jsx";
 
 const NavigationBar = ({ showButtons }) => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const { logout } = useAuth();
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -28,16 +30,30 @@ const NavigationBar = ({ showButtons }) => {
         {showButtons && (
           <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-orange-100 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-orange-500 md:dark:bg-orange-600 dark:border-orange-700">
             <li className="border-2 mt-2 border-orange-600 rounded-xl">
-              <ButtonComponent route={"/boardgames"} buttonText={"Boardgames collection"} isLink={true} />
+                <Link to="/boardgames">
+                  Boardgames
+                </Link>
+              {/* <ButtonComponent route={"/boardgames"} buttonText={"Boardgames collection"} isLink={true} /> */}
             </li>
             <li className="border-2 mt-2 border-orange-600 rounded-xl">
-              <ButtonComponent route={"/search"} buttonText={"New boardgame"} isLink={true} />
+            <Link to="/search">
+                  Search
+                </Link>
+              {/* <ButtonComponent route={"/search"} buttonText={"New boardgame"} isLink={true} /> */}
             </li>
             <li className="border-2 mt-2 border-orange-600 rounded-xl">
-              <ButtonComponent route={"/friends"} buttonText={"Friends"} isLink={true} />
+            <Link to="/friends">
+                  Friends
+                </Link>
+              {/* <ButtonComponent route={"/friends"} buttonText={"Friends"} isLink={true} /> */}
             </li>
             <li className="border-2 mt-2 border-orange-600 rounded-xl">
-              <ButtonComponent route={"/login"} buttonText={"Logout"} isLink={true} />
+           
+            <button onClick={()=>logout()} to="/login">
+                  Logout
+                </button>
+              {/* <ButtonComponent  route={"/login"} buttonText={"Logout"} isLink={true} > */}
+
             </li>
           </ul>
         )}

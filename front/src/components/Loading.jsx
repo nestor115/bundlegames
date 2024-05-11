@@ -14,6 +14,16 @@ if (props.source === "BoardgamesPage") {
       </div>
     );  
 }
+if (props.source === "FriendsPage") {
+  return (
+    <div className="flex-col gap-4 w-full flex items-center justify-start">
+    <div className="w-10 h-10 border-4 text-orange-400 text-2xl animate-spin border-gray-300 flex items-center justify-center border-t-orange-400 rounded-full">
+      <svg viewBox="0 0 24 24" fill="currentColor" height="1em" width="1em" className="animate-ping">
+      </svg>
+    </div>
+  </div>
+  );  
+}
     return (
         
           <div className="flex-col gap-4 w-full flex items-center justify-center">

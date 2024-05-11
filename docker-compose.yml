@@ -1,17 +1,5 @@
 version: "3.8"
 services:
-  web:
-    build: .
-    restart: always
-    ports:
-      - "80:80"
-    links:
-      - db
-    depends_on:
-      - db
-    networks:
-      networkwp:
-        ipv4_address: 172.24.0.11
   db:
     image: mysql:8.0.32
     restart: always
@@ -26,6 +14,18 @@ services:
     networks:
       networkwp:
         ipv4_address: 172.24.0.7
+  web:
+    build: .
+    restart: always
+    ports:
+      - "80:80"
+    links:
+      - db
+    depends_on:
+      - db
+    networks:
+      networkwp:
+        ipv4_address: 172.24.0.11
   phpmyadmin:
     image: phpmyadmin:5.2.1-apache
     restart: always

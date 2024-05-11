@@ -4,7 +4,7 @@ import { useApiBoardgames } from "../hooks/ApiBoardgames";
 import { useNavigate } from "react-router-dom";
 import ButtonComponent from "./ButtonComponent";
 import Loading from "./Loading";
-
+import { Link } from "react-router-dom";
 const Game = ({ id }) => {
   const navigate = useNavigate();
   const [gameName, setGameName] = useState("");
@@ -74,7 +74,10 @@ const Game = ({ id }) => {
       {gameName}
     </h5>
 <div className="flex justify-between "> 
-      <ButtonComponent route={`/boardgames/${id}`} buttonText={"Details"} />
+<Link to={`/boardgames/${id}`}>
+                  Details
+                </Link>
+      {/* <ButtonComponent route={`/boardgames/${id}`} buttonText={"Details"} /> */}
       <ButtonComponent
         buttonText="Delete"
         idBoardgame={id}

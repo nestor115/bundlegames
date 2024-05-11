@@ -37,7 +37,7 @@ const FriendDetails = (props) => {
     try {
       await deletePlayerFriend(props.id,selectedPlayerFriend);
       setSelectedPlayerFriend(null);
-      window.location.reload();
+      setPlayerFriends(prevFriends => prevFriends.filter(friend => friend.id !== selectedPlayerFriend));
     } catch (error) {
       console.error("Error deleting friend:", error);
     }

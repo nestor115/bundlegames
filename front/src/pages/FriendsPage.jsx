@@ -2,15 +2,19 @@ import React, { useState, useEffect } from "react";
 import { useDatabase } from "../hooks/Database";
 import Layout from "../components/Layout";
 import { FaTrashAlt, FaPlus } from "react-icons/fa";
+import Loading from "../components/Loading";
+
 const FriendsPage = () => {
   const { addFriend, getFriends, deleteFriend } = useDatabase();
   const [friendName, setFriendName] = useState("");
   const [friends, setFriends] = useState([]);
   const [selectedFriend, setSelectedFriend] = useState(null);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const getAllFriends = async function () {
       const data = await getFriends();
       setFriends(data.friends);
+      setLoading(false);
     };
     getAllFriends();
   }, []);
@@ -48,25 +52,27 @@ const FriendsPage = () => {
     <Layout showButtons={true}>
       <div className=" p-4">
         <h1 className="text-2xl mb-4">Friends list</h1>
-
-        <div className=" max-w-xs">
-          <ul className="mb-4">
-            {Object.values(friends).map((friend) => (
-              <li
-                key={friend.id}
-                className={`py-2 px-4 mt-2 border bg-orange-100 border-orange-400 hover:bg-orange-400 hover:text-white  text-center rounded-md cursor-pointer transition-colors duration-300 ${
-                  friend.id === selectedFriend
-                    ? "text-white bg-orange-400 "
-                    : "text-gray-800 hover:bg-orange-200"
-                }`}
-                onClick={() => handleFriendClick(friend.id)}
-              >
-                {friend.name}
-              </li>
-            ))}
-          </ul>
-        </div>
-
+        {loading ? ( // Muestra el indicador de carga mientras `loading` sea true
+          <Loading source="FriendsPage"/>
+        ) : (
+          <div className=" max-w-xs">
+            <ul className="mb-4">
+              {Object.values(friends).map((friend) => (
+                <li
+                  key={friend.id}
+                  className={`py-2 px-4 mt-2 border bg-orange-100 border-orange-400 hover:bg-orange-400 hover:text-white  text-center rounded-md cursor-pointer transition-colors duration-300 ${
+                    friend.id === selectedFriend
+                      ? "text-white bg-orange-400 "
+                      : "text-gray-800 hover:bg-orange-200"
+                  }`}
+                  onClick={() => handleFriendClick(friend.id)}
+                >
+                  {friend.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
         <button
           className="bg-red-500 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-lg flex items-center"
           onClick={handleDeleteFriend}
