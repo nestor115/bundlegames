@@ -49,7 +49,7 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 RUN ./composer.phar install
 # RUN php artisan passport:keys
 
-RUN php artisan migrate
+# RUN php artisan migrate
 WORKDIR /var/www/html
 
 # SITE CONF
