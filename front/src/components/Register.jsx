@@ -44,7 +44,7 @@ const Register = () => {
                 className="border border-gray-300 rounded-md p-2 w-full"
                 type="text"
                 name="name"
-                placeholder="Nombre"
+                placeholder="Name"
               />
             </div>
             <div className="mb-4">
@@ -60,7 +60,7 @@ const Register = () => {
                 className="border border-gray-300 rounded-md p-2 w-full"
                 type="password"
                 name="password"
-                placeholder="Contraseña"
+                placeholder="Password"
               />
             </div>
             <div className="mb-4">
@@ -68,14 +68,14 @@ const Register = () => {
                 className="border border-gray-300 rounded-md p-2 w-full"
                 type="password"
                 name="password_confirmation"
-                placeholder="Confirmar Contraseña"
+                placeholder="Confirm Password"
               />
             </div>
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
               type="submit"
             >
-              Registrarse
+              Register
             </button>
           </form>
         </div>

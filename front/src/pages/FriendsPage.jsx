@@ -23,7 +23,7 @@ const FriendsPage = () => {
     e.preventDefault();
     const existingFriend = friends.find((friend) => friend.name === friendName);
     if (existingFriend) {
-      alert("Este amigo ya está en la lista.");
+      alert("This friend is already on the list.");
       return;
     }
     await addFriend(friendName);
@@ -44,7 +44,7 @@ const FriendsPage = () => {
       setSelectedFriend(null);
       window.location.reload();
     } catch (error) {
-      console.error("Error al eliminar amigo:", error);
+      console.error("Error when deleting friend:", error);
     }
   };
 

@@ -74,9 +74,12 @@ const Game = ({ id }) => {
       {gameName}
     </h5>
 <div className="flex justify-between "> 
-<Link to={`/boardgames/${id}`}>
+
+                <button className="bg-blue-300 text-black hover:bg-blue-400 border border-gray-400 px-4 py-2 rounded-lg cursor-pointer">
+                <Link to={`/boardgames/${id}`}>
                   Details
                 </Link>
+        </button>
       {/* <ButtonComponent route={`/boardgames/${id}`} buttonText={"Details"} /> */}
       <ButtonComponent
         buttonText="Delete"

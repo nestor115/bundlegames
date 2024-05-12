@@ -17,7 +17,7 @@ const ButtonComponent = (props) => {
       const boardgameIdParsed = parseInt(props.idBoardgame);
 
       if (boardgameIds.includes(boardgameIdParsed)) {
-        alert("Este juego ya está en la lista.");
+        alert("This game is already on the list.");
         return;
       }
       await addBoardgame(boardgameIdParsed);
