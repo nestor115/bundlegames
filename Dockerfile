@@ -11,7 +11,6 @@ RUN apt-get update \
 RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -
 RUN apt-get update
 RUN apt-get install -y nodejs
-# RUN apt install -y nodejs
 
 # CONEXIÓN BBDD
 RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
@@ -29,7 +28,6 @@ RUN rm -fr bundlegames
 WORKDIR /var/www/html/front
 
 # Build de la SPA
-# ENV NODE_OPTIONS="--max-old-space-size=4096"
 RUN npm install
 RUN npm run build
 RUN mkdir ../bundlegames
@@ -47,7 +45,8 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php -r "unlink('composer-setup.php');"
 
 RUN ./composer.phar install
-# RUN php artisan passport:keys
+WORKDIR /var/www/html/bundlegames
+COPY bundlegames/front/public/.htaccess /var/www/html/bundlegames/
 
 # RUN php artisan migrate
 WORKDIR /var/www/html
@@ -58,17 +57,9 @@ RUN rm -r /etc/apache2/sites-available/000-default.conf
 COPY sites-available/bundlegames.conf /etc/apache2/sites-available/
 RUN a2ensite bundlegames.conf
 
-# Instalación de exif
-# RUN docker-php-ext-install exif && docker-php-ext-enable exif
-
-# Instalación
-# RUN apt-get install -y libicu-dev \
-#     && docker-php-ext-configure intl \
-#     && docker-php-ext-install intl
 
 USER root
 RUN chown -R www-data:www-data /var/www/html
-#RUN chmod -R 777 ./intranet/intranet-api/storage
 # IMPORTANTE
 RUN a2enmod rewrite
 EXPOSE 80
