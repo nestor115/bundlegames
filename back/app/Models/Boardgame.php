@@ -9,7 +9,6 @@ class Boardgame extends Model
 {
     protected $fillable = ['id'];
 
-    // Relación inversa: Un juego de mesa puede tener muchos usuarios
     public function users()
     {
         return $this->belongsToMany(User::class, 'boardgames_user', 'boardgame_id', 'user_id');

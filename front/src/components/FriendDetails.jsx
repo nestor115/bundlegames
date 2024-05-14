@@ -17,10 +17,8 @@ const FriendDetails = (props) => {
       const data = await getFriends();
       setFriends(data.friends);
       setLoading(false);
-
     };
     getAllFriends();
-
   }, []);
   const handleFriendChange = (e) => {
     setSelectedFriend(e.target.value);
@@ -35,9 +33,11 @@ const FriendDetails = (props) => {
       return;
     }
     try {
-      await deletePlayerFriend(props.id,selectedPlayerFriend);
+      await deletePlayerFriend(props.id, selectedPlayerFriend);
       setSelectedPlayerFriend(null);
-      setPlayerFriends(prevFriends => prevFriends.filter(friend => friend.id !== selectedPlayerFriend));
+      setPlayerFriends((prevFriends) =>
+        prevFriends.filter((friend) => friend.id !== selectedPlayerFriend)
+      );
     } catch (error) {
       console.error("Error deleting friend:", error);
     }
@@ -57,7 +57,9 @@ const FriendDetails = (props) => {
       return;
     }
     const selectedFriendId = parseInt(selectedFriend);
-    const existingFriend = playerFriends.map(friend => friend.id).includes(selectedFriendId);
+    const existingFriend = playerFriends
+      .map((friend) => friend.id)
+      .includes(selectedFriendId);
 
     if (existingFriend) {
       alert("This friend is already in the players list.");
@@ -66,8 +68,7 @@ const FriendDetails = (props) => {
 
     try {
       await addPlayerFriend(props.id, selectedFriend);
-      // alert("Friend added successfully to the board game.");
-      // window.location.reload();
+      
       const updatedPlayerFriends = await getPlayerFriends(props.id);
       setPlayerFriends(updatedPlayerFriends.friends);
     } catch (error) {
@@ -76,63 +77,60 @@ const FriendDetails = (props) => {
   };
 
   if (loading) {
-    return (
-      <Loading source="DetailsPage"/>
-    );
+    return <Loading source="DetailsPage" />;
   }
-  
 
   return (
-    
     <div className="bg-orange-300 border border-gray-300 rounded-lg shadow p-6">
-    <h1 className="text-xl font-semibold mb-4 text-center">Friends list</h1>
-    <select
-      className="block w-full p-2 border border-gray-300 rounded-md mb-4"
-      value={selectedFriend}
-      onChange={handleFriendChange}
-    >
-      <option value="">Select a friend</option>
-      {friends.map((friend) => (
-        <option key={friend.id} value={friend.id}>
-          {friend.name}
-        </option>
-      ))}
-    </select>
-
-    <button
-      className="flex items-center w-full px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-700"
-      onClick={handleAddFriendToGame}
-    >
-      <FaPlus className="mr-2" />
-      Add friend to game
-    </button>
-
-    <div className="mt-8">
-      <h1 className="text-xl font-semibold mb-4">Players list</h1>
-     <ul className="mb-4">
-  {Object.values(playerFriends).map((playerFriend) => (
-    <li
-      key={playerFriend.id}
-      className={`py-2 mt-1 px-4 border mt-2 bg-orange-200 border-orange-500 hover:bg-orange-400 hover:text-white text-center rounded-md cursor-pointer transition-colors duration-300 ${
-        playerFriend.id === selectedPlayerFriend ? "text-white bg-orange-400" : "text-gray-800 hover:bg-orange-200"
-      }`}
-      onClick={() => handlePlayerFriendClick(playerFriend.id)}
-    >
-      {playerFriend.name}
-    </li>
-  ))}
-</ul>
+      <h1 className="text-xl font-semibold mb-4 text-center">Friends list</h1>
+      <select
+        className="block w-full p-2 border border-gray-300 rounded-md mb-4"
+        value={selectedFriend}
+        onChange={handleFriendChange}
+      >
+        <option value="">Select a friend</option>
+        {friends.map((friend) => (
+          <option key={friend.id} value={friend.id}>
+            {friend.name}
+          </option>
+        ))}
+      </select>
 
       <button
-  className=" mt-4 px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 flex items-center"
-  onClick={handleDeletePlayerFriend}
->
-  <FaTrashAlt className="mr-2" />
-  Delete selected player
-</button>
+        className="flex items-center w-full px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-700"
+        onClick={handleAddFriendToGame}
+      >
+        <FaPlus className="mr-2" />
+        Add friend to game
+      </button>
+
+      <div className="mt-8">
+        <h1 className="text-xl font-semibold mb-4">Players list</h1>
+        <ul className="mb-4">
+          {Object.values(playerFriends).map((playerFriend) => (
+            <li
+              key={playerFriend.id}
+              className={`py-2 mt-1 px-4 border mt-2 bg-orange-200 border-orange-500 hover:bg-orange-400 hover:text-white text-center rounded-md cursor-pointer transition-colors duration-300 ${
+                playerFriend.id === selectedPlayerFriend
+                  ? "text-white bg-orange-400"
+                  : "text-gray-800 hover:bg-orange-200"
+              }`}
+              onClick={() => handlePlayerFriendClick(playerFriend.id)}
+            >
+              {playerFriend.name}
+            </li>
+          ))}
+        </ul>
+
+        <button
+          className=" mt-4 px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 flex items-center"
+          onClick={handleDeletePlayerFriend}
+        >
+          <FaTrashAlt className="mr-2" />
+          Delete selected player
+        </button>
+      </div>
     </div>
-  </div>
-        
   );
 };
 

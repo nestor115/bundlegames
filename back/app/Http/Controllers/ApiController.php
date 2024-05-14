@@ -5,12 +5,13 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use App\Http\Controllers\Controller;
 use Exception;
+
 class ApiController extends Controller
 {
 
-    public function getBoardGameInfo(int $id) 
+    public function getBoardGameInfo(int $id)
     {
-        $url = 'https://www.boardgamegeek.com/xmlapi2/thing?id='.$id;
+        $url = 'https://www.boardgamegeek.com/xmlapi2/thing?id=' . $id;
 
         $headers = [
             'Origin' => 'https://www.boardgamegeek.com/'
@@ -41,9 +42,9 @@ class ApiController extends Controller
         }
     }
 
-    public function searchBoardgame($searchTerm) 
+    public function searchBoardgame($searchTerm)
     {
-        $url = 'https://www.boardgamegeek.com/xmlapi2/search?type=boardgame&query='.$searchTerm;
+        $url = 'https://www.boardgamegeek.com/xmlapi2/search?type=boardgame&query=' . $searchTerm;
 
         $headers = [
             'Origin' => 'https://www.boardgamegeek.com/'

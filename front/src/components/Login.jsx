@@ -11,6 +11,14 @@ const Login = () => {
 
   const handleLogin = function (e) {
     e.preventDefault();
+    if (e.target.email.value == "") {
+      setErrors("The email field is required");
+      return;
+    }
+    if (e.target.password.value == "") {
+      setErrors("Please, enter a password");
+      return;
+    }
     login({
       setErrors,
       email: e.target.email.value,
@@ -20,37 +28,36 @@ const Login = () => {
 
   return (
     <div className="flex items-center justify-center h-screen">
-    <div className="bg-white p-8 rounded-lg shadow-lg">
-      <h1 className="text-2xl font-semibold mb-4 text-center">Login</h1>
-      {errors && <p className="text-red-500 mb-4"> {errors}</p>}
-      <form onSubmit={handleLogin}>
-        <div className="mb-4">
-          <input
-            className="border border-gray-300 rounded-md p-2 w-full"
-            type="email"
-            name="email"
-            placeholder="Email"
-          />
-        </div>
-        <div className="mb-4">
-          <input
-            className="border border-gray-300 rounded-md p-2 w-full"
-            type="password"
-            name="password"
-            placeholder="Password"
-          />
-        </div>
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
-          type="submit"
-        >
-          Login
-        </button>
-      </form>
+      <div className="bg-white p-8 rounded-lg shadow-lg">
+        <h1 className="text-2xl font-semibold mb-4 text-center">Login</h1>
+        {errors && <p className="text-red-500 mb-4"> {errors}</p>}
+        <form onSubmit={handleLogin}>
+          <div className="mb-4">
+            <input
+              className="border border-gray-300 rounded-md p-2 w-full"
+              type="email"
+              name="email"
+              placeholder="Email"
+            />
+          </div>
+          <div className="mb-4">
+            <input
+              className="border border-gray-300 rounded-md p-2 w-full"
+              type="password"
+              name="password"
+              placeholder="Password"
+            />
+          </div>
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+            type="submit"
+          >
+            Login
+          </button>
+        </form>
+      </div>
     </div>
-  </div>
   );
 };
 
 export default Login;
-

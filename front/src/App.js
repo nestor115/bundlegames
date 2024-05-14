@@ -13,9 +13,6 @@ import "tailwindcss/tailwind.css";
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
 
-// Configurar Axios para incluir cookies en las solicitudes
-// axios.defaults.withCredentials = true;
-
 function App() {
   return (
     <Router>

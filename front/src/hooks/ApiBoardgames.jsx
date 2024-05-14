@@ -1,37 +1,28 @@
-import axios from '../lib/axios'
+import axios from "../lib/axios";
 
-export const useApiBoardgames = () => { //2 props que se pasan
-    
+export const useApiBoardgames = () => {
+  const getBoardGameInfo = async ({ setErrors, id }) => {
+    return axios
+      .get("/api/boardgameinfo/" + id)
+      .then((res) => res.data)
+      .catch((error) => {
+        if (error.response.status !== 409) throw error;
+        setErrors(error);
+      });
+  };
 
-    const getBoardGameInfo = async ({setErrors ,id}) => {
+  const getSearchBoardgame = async ({ setErrors, searchTerm }) => {
+    return axios
+      .get("/api/searchBoardgame/" + searchTerm)
+      .then((res) => res.data)
+      .catch((error) => {
+        if (error.response.status !== 409) throw error;
+        setErrors(error);
+      });
+  };
 
-            return axios
-            .get('/api/boardgameinfo/'+id)
-            .then(res =>res.data)
-            .catch(error => {
-                if (error.response.status !== 409) throw error
-                setErrors(error);
-            })
-    }
-    
-
-    const getSearchBoardgame = async ({setErrors ,searchTerm}) => {
-
-            return axios
-            .get('/api/searchBoardgame/'+searchTerm)
-            .then(res =>res.data)
-            .catch(error => {
-                if (error.response.status !== 409) throw error
-                setErrors(error);
-            })
-    }
-    // 
-    
-
-  
-
-    return {
-       getBoardGameInfo,
-       getSearchBoardgame
-    }
-}
+  return {
+    getBoardGameInfo,
+    getSearchBoardgame,
+  };
+};

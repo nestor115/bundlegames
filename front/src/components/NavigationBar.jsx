@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import ButtonComponent from "./ButtonComponent";
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/Auth.jsx";
 import logo from "../media/logo.png";
@@ -19,30 +18,31 @@ const NavigationBar = ({ showButtons }) => {
             BundleGames
           </span>
         </div>
-        <button
-          type="button"
-          onClick={toggleMenu}
-          className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-lg md:hidden hover:bg-orange-500"
-          aria-expanded={isOpen ? "true" : "false"}
-        >
-          <span className="sr-only">Open main menu</span>
-          <svg
-            className="w-5 h-5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 17 14"
+        {showButtons && (
+          <button
+            type="button"
+            onClick={toggleMenu}
+            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-lg md:hidden hover:bg-orange-500"
+            aria-expanded={isOpen ? "true" : "false"}
           >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M1 1h15M1 7h15M1 13h15"
-            />
-          </svg>
-        </button>
-
+            <span className="sr-only">Open main menu</span>
+            <svg
+              className="w-5 h-5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 17 14"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M1 1h15M1 7h15M1 13h15"
+              />
+            </svg>
+          </button>
+        )}
         <div
           className={`w-full md:w-auto md:block ${isOpen ? "block" : "hidden"}`}
           id="navbar-default"
@@ -53,26 +53,24 @@ const NavigationBar = ({ showButtons }) => {
                 <button className=" text-xl block py-2 px-3 text-gray-900 rounded hover:bg-orange-200 md:hover:bg-transparent md:border-0 md:hover:text-orange-700 md:p-0 dark:text-white md:dark:hover:text-gray-700 dark:hover:bg-orange-600 dark:hover:text-white md:dark:hover:bg-transparent">
                   <Link to="/boardgames">Boardgames collection</Link>
                 </button>
-
-                {/* <ButtonComponent route={"/boardgames"} buttonText={"Boardgames collection"} isLink={true} /> */}
               </li>
               <li className="border-2 mt-2 border-orange-600 rounded-xl">
                 <button className="text-xl block py-2 px-3 text-gray-900 rounded hover:bg-orange-200 md:hover:bg-transparent md:border-0 md:hover:text-orange-700 md:p-0 dark:text-white md:dark:hover:text-gray-700 dark:hover:bg-orange-600 dark:hover:text-white md:dark:hover:bg-transparent">
-                  <Link to="/search">Search</Link>
+                  <Link to="/search">Search a new game</Link>
                 </button>
-                {/* <ButtonComponent route={"/search"} buttonText={"New boardgame"} isLink={true} /> */}
               </li>
               <li className="border-2 mt-2 border-orange-600 rounded-xl">
                 <button className="text-xl block py-2 px-3 text-gray-900 rounded hover:bg-orange-200 md:hover:bg-transparent md:border-0 md:hover:text-orange-700 md:p-0 dark:text-white md:dark:hover:text-gray-700 dark:hover:bg-orange-600 dark:hover:text-white md:dark:hover:bg-transparent">
                   <Link to="/friends">Friends</Link>
                 </button>
-                {/* <ButtonComponent route={"/friends"} buttonText={"Friends"} isLink={true} /> */}
               </li>
               <li className="border-2 mt-2 border-orange-600 rounded-xl">
-                <button onClick={() => logout()} className="text-xl block py-2 px-3 text-gray-900 rounded hover:bg-orange-200 md:hover:bg-transparent md:border-0 md:hover:text-orange-700 md:p-0 dark:text-white md:dark:hover:text-gray-700 dark:hover:bg-orange-600 dark:hover:text-white md:dark:hover:bg-transparent">
+                <button
+                  onClick={() => logout()}
+                  className="text-xl block py-2 px-3 text-gray-900 rounded hover:bg-orange-200 md:hover:bg-transparent md:border-0 md:hover:text-orange-700 md:p-0 dark:text-white md:dark:hover:text-gray-700 dark:hover:bg-orange-600 dark:hover:text-white md:dark:hover:bg-transparent"
+                >
                   Logout
                 </button>
-                {/* <ButtonComponent  route={"/login"} buttonText={"Logout"} isLink={true} > */}
               </li>
             </ul>
           )}

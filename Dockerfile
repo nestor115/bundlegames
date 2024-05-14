@@ -45,8 +45,8 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php -r "unlink('composer-setup.php');"
 
 RUN ./composer.phar install
-WORKDIR /var/www/html/bundlegames
-COPY bundlegames/front/public/.htaccess /var/www/html/bundlegames/
+#WORKDIR /var/www/html/bundlegames
+#COPY bundlegames/front/public/.htaccess /var/www/html/bundlegames/
 
 # RUN php artisan migrate
 WORKDIR /var/www/html

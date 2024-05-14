@@ -52,8 +52,8 @@ const FriendsPage = () => {
     <Layout showButtons={true}>
       <div className=" p-4">
         <h1 className="text-2xl mb-4">Friends list</h1>
-        {loading ? ( // Muestra el indicador de carga mientras `loading` sea true
-          <Loading source="FriendsPage"/>
+        {loading ? (
+          <Loading source="FriendsPage" />
         ) : (
           <div className=" max-w-xs">
             <ul className="mb-4">

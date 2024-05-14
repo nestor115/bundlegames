@@ -35,27 +35,25 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         const responseData = error.response.data;
         let errorMessage = "An error occurred";
 
-        // Verificar si el error es debido a la longitud de la contraseña
         if (
           responseData &&
           responseData.errors &&
           responseData.errors.password &&
           responseData.errors.password.includes("least 8 characters")
         ) {
-          errorMessage = "The password must be at least 8 characters long."; // Mensaje de error en inglés para contraseña corta
+          errorMessage = "The password must be at least 8 characters long.";
         } else if (
           responseData &&
           responseData.errors &&
           responseData.errors.email
         ) {
-          errorMessage = "This email is already registered"; // Mensaje de error en inglés para email ya registrado
+          errorMessage = "This email is already registered";
         }
 
         setErrors(errorMessage);
-        alert(errorMessage); // Mostrar alert con el mensaje de error
+        alert(errorMessage);
       });
   };
-  //manda setErrors y email, password
   const login = async ({ setErrors, ...props }) => {
     await csrf();
 
@@ -64,7 +62,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     axios
       .post("/login", props)
       .then(() => {
-        mutate(); //revalida informacion (hace cambios en la cache)
+        mutate();
       })
       .catch((error) => {
         if (error.response.status !== 422) throw error;
@@ -87,50 +85,6 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
       });
   };
 
-  const forgotPassword = async ({ setErrors, setStatus, email }) => {
-    await csrf();
-
-    setErrors([]);
-    setStatus(null);
-
-    axios
-      .post("/forgot-password", { email })
-      .then((response) => setStatus(response.data.status))
-      .catch((error) => {
-        if (error.response.status !== 422) throw error;
-
-        setErrors(error.response.data.errors);
-      });
-  };
-
-  // const resetPassword = async ({ setErrors, setStatus, ...props }) => {
-  //     await csrf()
-
-  //     setErrors([])
-  //     setStatus(null)
-
-  //     axios
-  //         .post('/reset-password', { token: params.token, ...props })//quitar los params, no va a funcionar
-  //         .then(response =>
-  //             navigate('/login?reset=' + btoa(response.data.status)),
-  //         )
-  //         .catch(error => {
-  //             if (error.response.status !== 422) throw error
-
-  //             setErrors(error.response.data.errors)
-  //         })
-  // }
-
-  const resendEmailVerification = ({ setStatus }) => {
-    if (!user.email_verified_at) {
-      axios.post("/email/verification-notification").then((response) => {
-        if (setStatus != null) {
-          setStatus(response.data.status);
-        }
-      });
-    }
-  };
-
   const logout = async () => {
     if (!error) {
       await axios.post("/logout").then(() => mutate());
@@ -138,13 +92,12 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
     window.location.pathname = "/";
   };
-  //si usuario =guest y redirect (url) no es null
   useEffect(() => {
     if (middleware === "guest" && redirectIfAuthenticated && user)
       navigate(redirectIfAuthenticated);
 
     if (middleware === "auth" && redirectIfAuthenticated)
-        navigate(redirectIfAuthenticated)
+      navigate(redirectIfAuthenticated);
 
     if (middleware === "auth" && error) logout();
   }, [user, error]);
@@ -153,9 +106,6 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     user,
     register,
     login,
-    forgotPassword,
-    // resetPassword,
-    resendEmailVerification,
     logout,
   };
 };
