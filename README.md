@@ -20,32 +20,37 @@ APP_URL=http://Ip_del_servidor
 Una vez hecho esto, procede con los siguientes pasos:
 
 1. Construye los contenedores Docker:
-
+```plaintext
 docker-compose build
 docker-compose up -d
-
+```
 2. Verifica que los contenedores estén ejecutándose correctamente:
-
+```plaintext
 docker ps
-
+```
 3. Copia el ID del contenedor web.
 
 4. Accede al contenedor usando el ID:
+```plaintext
 docker exec -it [ID_del_contenedor] /bin/bash
+```
+5. Ejecuta las migraciones
+```plaintext
 cd back
 php artisan migrate
+```
+
+6. Cambiate al directorio bundlegames e instala el editor de texto Nano:
+```plaintext
 cd ..
 cd bundlegames
-
-5. Instala el editor de texto Nano:
-
 apt install nano
-
-6. Abre el archivo `.htaccess` con Nano:
+```
+7. Abre el archivo `.htaccess` con Nano:
 
 nano .htaccess
 
-7. Dentro de `.htaccess`, añade las siguientes líneas:
+8. Dentro de `.htaccess`, añade las siguientes líneas:
 ```plaintext
 <IfModule mod_rewrite.c>
 RewriteEngine On
@@ -58,9 +63,9 @@ RewriteRule . /index.html [L]
 </IfModule>
 ```
 
-8. Guarda los cambios y cierra Nano.
+9. Guarda los cambios y cierra Nano.
 
-9. Recarga el servicio de Apache:
+10. Recarga el servicio de Apache:
 
 service apache2 reload
 
