@@ -1,12 +1,6 @@
 # bundlegames
 # Manual de Instalación
 
-# Instrucciones de instalación
-
-Para comenzar, clona el repositorio desde GitHub:
-```plaintext
-git clone https://github.com/daw2072024/bundlegames.git
-cd bundlegames
 ```
 Si estás realizando la instalación en un servidor, asegúrate de hacer los siguientes cambios:
 
@@ -69,8 +63,8 @@ RewriteRule . /index.html [L]
 9. Guarda los cambios y cierra Nano.
 
 10. Recarga el servicio de Apache:
-
+```plaintext
 service apache2 reload
-
+```
 Finalmente, abre un navegador y accede a la IP de tu servidor para verificar que la instalación se ha realizado correctamente.
 
