@@ -1,17 +1,29 @@
 # bundlegames
 # Manual de Instalación
 
+# Instrucciones de instalación
+
+Para comenzar, clona el repositorio desde GitHub:
+
+```plaintext
+git clone https://github.com/daw2072024/bundlegames.git
+cd bundlegames
 ```
+
 Si estás realizando la instalación en un servidor, asegúrate de hacer los siguientes cambios:
 
 1. En el archivo `front/src/lib/axios`, en la línea correspondiente, cambia la dirección base a la IP de tu servidor:
+
 ```plaintext
 baseURL: http://Ip_del_servidor/back
 ```
+
 2. En el archivo `.env` dentro de la carpeta `back`, cambia la IP en la siguiente línea:
+
 ```plaintext
 APP_URL=http://Ip_del_servidor
 ```
+
 ---
 
 Una vez hecho esto, procede con los siguientes pasos:
@@ -44,9 +56,9 @@ cd bundlegames
 apt install nano
 ```
 7. Abre el archivo `.htaccess` con Nano:
-
+```plaintext
 nano .htaccess
-
+```
 8. Dentro de `.htaccess`, añade las siguientes líneas:
 ```plaintext
 <IfModule mod_rewrite.c>
